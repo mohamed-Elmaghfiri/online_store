@@ -12,6 +12,10 @@
         <h5 class="card-title">
           {{ $viewData["product"]->getName() }} (${{ $viewData["product"]->getPrice() }})
         </h5>
+        <p class="card-text">
+  <strong>Stock Available:</strong> {{ $viewData["product"]->quantity_store  }}
+</p>
+
         <p class="card-text">{{ $viewData["product"]->getDescription() }}</p>
         <p class="card-text">
         <form method="POST" action="{{ route('cart.add', ['id'=> $viewData['product']->getId()]) }}">
@@ -20,11 +24,12 @@
             <div class="col-auto">
               <div class="input-group col-auto">
                 <div class="input-group-text">Quantity</div>
-                <input type="number" min="1" max="10" class="form-control quantity-input" name="quantity" value="1">
+                <input type="number" min="1" max="{{$viewData["product"]->quantity_store }}" class="form-control quantity-input" name="quantity" value="1">
               </div>
             </div>
             <div class="col-auto">
-              <button class="btn bg-primary text-white" type="submit">Add to cart</button>
+              
+              <button class="btn bg-primary text-white " {{ $viewData["product"]->quantity_store == 0 ? 'disabled' : ''}}  type="submit">Add to cart</button>
             </div>
           </div>
         </form>

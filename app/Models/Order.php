@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
@@ -18,6 +19,7 @@ class Order extends Model
      * $this->user - User - contains the associated User
      * $this->items - Item[] - contains the associated items
      */
+        use HasFactory;
 
     protected $fillable = [
         'total',

@@ -14,6 +14,7 @@ class AdminProductController extends Controller
         $viewData = [];
         $viewData["title"] = "Admin Page - Products - Online Store";
         $viewData["products"] = Product::all();
+        // dd($viewData["products"] );
         return view('admin.product.index')->with("viewData", $viewData);
     }
 

@@ -72,7 +72,15 @@
       </thead>
       <tbody>
         @foreach ($viewData["products"] as $product)
-        <tr>
+        <tr class="
+              @if($product->quantity_store == 0)
+                bg-danger
+              @elseif($product->quantity_store < 10)
+                bg-warning  
+                @else
+                bg-success  
+              @endif
+            " >
           <td>{{ $product->getId() }}</td>
           <td>{{ $product->getName() }}</td>
           <td>

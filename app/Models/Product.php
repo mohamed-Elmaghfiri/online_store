@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -18,6 +19,7 @@ class Product extends Model
      * $this->attributes['updated_at'] - timestamp - contains the product update date
      * $this->items - Item[] - contains the associated items
      */
+    use HasFactory;
 
     protected $fillable = [
         'name',

@@ -39,6 +39,7 @@ class User extends Authenticatable
         'password',
         'balance',
     ];
+    use HasFactory;
 
     /**
      * The attributes that should be hidden for serialization.

@@ -64,6 +64,9 @@ class CartController extends Controller
                 $item->setProductId($product->getId());
                 $item->setOrderId($order->getId());
                 $item->save();
+                // update quantity_tore of product
+                $product->quantity_store -= $quantity;
+                $product->save();
                 $total += $product->getPrice() * $quantity;
             }
             $order->setTotal($total);
@@ -72,6 +75,7 @@ class CartController extends Controller
             $newBalance = Auth::user()->getBalance() - $total;
             Auth::user()->setBalance($newBalance);
             Auth::user()->save();
+            
 
             $request->session()->forget('products');
 
