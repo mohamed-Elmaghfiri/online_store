@@ -51,6 +51,21 @@
         <label class="form-label">Description</label>
         <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
       </div>
+      <div class="mb-3 row">
+        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Category:</label>
+        <div class="col-lg-10 col-md-6 col-sm-12">
+          <select name="categorie_id" class="form-control">
+            <option value="-1" disabled selected>Choose a category</option>
+            @foreach($viewData['categories'] as $categorie)
+                <option value="{{ $categorie['id'] }}" 
+                    {{ old('categorie_id', $product->categorie_id ?? '') == $categorie->id ? 'selected' : '' }}>
+                    {{ $categorie->name }}
+                </option>
+            @endforeach
+        </select>
+        </div>
+    </div>
+    
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
@@ -66,6 +81,7 @@
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
+          <th scope="col">Categorie</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
         </tr>
@@ -75,6 +91,7 @@
         <tr>
           <td>{{ $product->getId() }}</td>
           <td>{{ $product->getName() }}</td>
+          <td> {{$product->category->name}}</td>
           <td>
             <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
               <i class="bi-pencil"></i>

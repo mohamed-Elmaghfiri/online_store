@@ -28,6 +28,10 @@ class Product extends Model
             'image' => 'image',
         ]);
     }
+    public function category()
+{
+    return $this->belongsTo(Categorie::class, 'categorie_id');
+}
 
     public static function sumPricesByQuantities($products, $productsInSession)
     {
