@@ -35,6 +35,8 @@ Route::middleware('admin')->group(function () {
     Route::delete('/admin/products/{id}/delete', 'App\Http\Controllers\Admin\AdminProductController@delete')->name("admin.product.delete");
     Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name("admin.product.edit");
     Route::put('/admin/products/{id}/update', 'App\Http\Controllers\Admin\AdminProductController@update')->name("admin.product.update");
+    Route::get('/admin/products/filter', 'App\Http\Controllers\Admin\AdminProductController@filter')->name('admin.product.filter');
+
     Route::get('admin/categories', 'App\Http\Controllers\Admin\AdminCategorieController@index')->name("admin.categorie.index");
     Route::post('admin/categories/store', 'App\Http\Controllers\Admin\AdminCategorieController@store')->name("admin.categorie.store");
     Route::delete('admin/categories/{id}', 'App\Http\Controllers\Admin\AdminCategorieController@delete')->name("admin.categorie.delete");

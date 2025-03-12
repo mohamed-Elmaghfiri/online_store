@@ -10,13 +10,21 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $viewData = [];
         $viewData["title"] = "Admin Page - Products - Online Store";
-        $viewData["products"] = Product::all();
+        // $viewData["products"] = Product::all();
         $viewData["categories"] = Categorie::all(); 
-        return view('admin.product.index')->with("viewData", $viewData);
+        // return view('admin.product.index')->with("viewData", $viewData);
+        $categoryId = $request->query('categorie_id');
+        if ($categoryId) {
+        $viewData["products"] = Product::where('categorie_id', $categoryId)->get();
+    } else {
+        $viewData["products"] = Product::all();
+    }
+
+    return view('admin.product.index')->with("viewData", $viewData);
     }
 
     public function store(Request $request)

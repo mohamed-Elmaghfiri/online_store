@@ -76,6 +76,21 @@
     Manage Products
   </div>
   <div class="card-body">
+     <!-- Category Filter -->
+    <form method="GET" action="{{ route('admin.product.index') }}">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <select name="categorie_id" class="form-control" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            @foreach($viewData['categories'] as $categorie)
+              <option value="{{ $categorie->id }}" {{ request('categorie_id') == $categorie->id ? 'selected' : '' }}>
+                {{ $categorie->name }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+    </form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
