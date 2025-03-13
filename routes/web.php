@@ -3,6 +3,10 @@
 use App\Http\Controllers\Admin\AdminCategorieController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,25 +21,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name("home.index");
-Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("home.about");
-Route::get('/products', 'App\Http\Controllers\ProductController@index')->name("product.index");
-Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name("product.show");
+Route::get('/', [HomeController::class, 'index'])->name("home.index");
+Route::get('/about', [HomeController::class, 'about'])->name("home.about");
+Route::get('/products', [ProductController::class, 'index'])->name("product.index");
+Route::get('/products/{id}', [ProductController::class, 'show'])->name("product.show");
 
-Route::get('/cart', 'App\Http\Controllers\CartController@index')->name("cart.index");
-Route::get('/cart/delete', 'App\Http\Controllers\CartController@delete')->name("cart.delete");
-Route::post('/cart/add/{id}', 'App\Http\Controllers\CartController@add')->name("cart.add");
+Route::get('/cart', [CartController::class, 'index'])->name("cart.index");
+Route::get('/cart/delete', [CartController::class, 'delete'])->name("cart.delete");
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name("cart.add");
 
 Route::middleware('auth')->group(function () {
-    Route::get('/cart/purchase', 'App\Http\Controllers\CartController@purchase')->name("cart.purchase");
-    Route::get('/my-account/orders', 'App\Http\Controllers\MyAccountController@orders')->name("myaccount.orders");
+    Route::get('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
+    Route::get('/my-account/orders', [MyAccountController::class, 'orders'])->name("myaccount.orders");
 });
 
 Route::middleware('admin')->group(function () {
-    // Admin Home Route
     Route::get('/admin', [AdminHomeController::class, 'index'])->name("admin.home.index");
-
-    // Product Routes
     Route::get('/admin/products', [AdminProductController::class, 'index'])->name("admin.product.index");
     Route::post('/admin/products/store', [AdminProductController::class, 'store'])->name("admin.product.store");
     Route::delete('/admin/products/{id}/delete', [AdminProductController::class, 'delete'])->name("admin.product.delete");
