@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,8 @@ class ProductFactory extends Factory
             "image" => "1.jpg",
             'price' => $this->faker->randomFloat(2, 10, 100),
             'quantity_store' => $this->faker->numberBetween(0, 15),
+            'categorie_id' => Categorie::inRandomOrder()->first()->id ?? 1, // Ensure valid ID
+
         ];
     }
 }

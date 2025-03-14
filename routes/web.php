@@ -1,13 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\Admin\AdminCategorieController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyAccountController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,15 @@ Route::middleware('admin')->group(function () {
     Route::delete('/admin/products/{id}/delete', [AdminProductController::class, 'delete'])->name("admin.product.delete");
     Route::get('/admin/products/{id}/edit', [AdminProductController::class, 'edit'])->name("admin.product.edit");
     Route::put('/admin/products/{id}/update', [AdminProductController::class, 'update'])->name("admin.product.update");
+    Route::get('/admin/products/filter', [AdminProductController::class, 'filter'])->name('admin.product.filter');
+
+    // Category Routes
+    Route::get('admin/categories', [AdminCategorieController::class, "index"])->name("admin.categorie.index");
+    Route::post('admin/categories/store', [AdminCategorieController::class, "store"])->name("admin.categorie.store");
+    Route::delete('admin/categories/{id}', [AdminCategorieController::class, 'delete'])->name("admin.categorie.delete");
+    Route::get('admin/categories/{id}/edit', [AdminCategorieController::class, 'edit'])->name("admin.categorie.edit");
+    Route::put('admin/categories/{id}/update', [AdminCategorieController::class, 'update'])->name("admin.categorie.update");
 });
+
 
 Auth::routes();

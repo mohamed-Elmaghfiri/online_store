@@ -20,12 +20,12 @@ class Product extends Model
      * $this->items - Item[] - contains the associated items
      */
     use HasFactory;
-
-    protected $fillable = [
+    protected $fillable =[
         'name',
         'description',
         'image',
         'price',
+        'categorie_id'
     ];
 
     public static function validate($request)
@@ -37,12 +37,16 @@ class Product extends Model
             'image' => 'image',
         ]);
     }
+    public function category()
+{
+    return $this->belongsTo(Categorie::class, 'categorie_id');
+}
 
     public static function sumPricesByQuantities($products, $productsInSession)
     {
         $total = 0;
         foreach ($products as $product) {
-            $total += $product->getPrice() * $productsInSession[$product->getId()];
+            $total = $total + ($product->getPrice()*$productsInSession[$product->getId()]);
         }
 
         return $total;
@@ -122,7 +126,7 @@ class Product extends Model
     {
         return $this->hasMany(Item::class);
     }
-
+    
     public function getItems()
     {
         return $this->items;

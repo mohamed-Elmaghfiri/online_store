@@ -12,7 +12,7 @@ class Order extends Model
     /**
      * ORDER ATTRIBUTES
      * $this->attributes['id'] - int - contains the order primary key (id)
-     * $this->attributes['total'] - string - contains the order total
+     * $this->attributes['total'] - string - contains the order name
      * $this->attributes['user_id'] - int - contains the referenced user id
      * $this->attributes['created_at'] - timestamp - contains the order creation date
      * $this->attributes['updated_at'] - timestamp - contains the order update date
@@ -21,11 +21,6 @@ class Order extends Model
      */
         use HasFactory;
 
-    protected $fillable = [
-        'total',
-        'user_id',
-    ];
-
     public static function validate($request)
     {
         $request->validate([
@@ -33,7 +28,7 @@ class Order extends Model
             "user_id" => "required|exists:users,id",
         ]);
     }
-
+    
     public function getId()
     {
         return $this->attributes['id'];

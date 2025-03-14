@@ -21,7 +21,7 @@ class Item extends Model
      * $this->order - Order - contains the associated Order
      * $this->product - Product - contains the associated Product
      */
-        use HasFactory ;
+
     protected $fillable = [
         'quantity',
         'price',
@@ -38,7 +38,7 @@ class Item extends Model
             "order_id" => "required|exists:orders,id",
         ]);
     }
-
+    
     public function getId()
     {
         return $this->attributes['id'];
@@ -128,7 +128,7 @@ class Item extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
+    
     public function getProduct()
     {
         return $this->product;

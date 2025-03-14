@@ -23,7 +23,7 @@ class CartController extends Controller
 
         $viewData = [];
         $viewData["title"] = "Cart - Online Store";
-        $viewData["subtitle"] = "Shopping Cart";
+        $viewData["subtitle"] =  "Shopping Cart";
         $viewData["total"] = $total;
         $viewData["products"] = $productsInCart;
         return view('cart.index')->with("viewData", $viewData);
@@ -31,7 +31,7 @@ class CartController extends Controller
 
     public function add(Request $request, $id)
     {
-        $products = $request->session()->get("products", []);
+        $products = $request->session()->get("products");
         $products[$id] = $request->input('quantity');
         $request->session()->put('products', $products);
 
@@ -68,6 +68,7 @@ class CartController extends Controller
                 $product->quantity_store -= $quantity;
                 $product->save();
                 $total += $product->getPrice() * $quantity;
+                $total = $total + ($product->getPrice()*$quantity);
             }
             $order->setTotal($total);
             $order->save();
@@ -75,14 +76,15 @@ class CartController extends Controller
             $newBalance = Auth::user()->getBalance() - $total;
             Auth::user()->setBalance($newBalance);
             Auth::user()->save();
-            
+
+
 
             $request->session()->forget('products');
 
             $viewData = [];
             $viewData["title"] = "Purchase - Online Store";
-            $viewData["subtitle"] = "Purchase Status";
-            $viewData["order"] = $order;
+            $viewData["subtitle"] =  "Purchase Status";
+            $viewData["order"] =  $order;
             return view('cart.purchase')->with("viewData", $viewData);
         } else {
             return redirect()->route('cart.index');

@@ -51,6 +51,21 @@
         <label class="form-label">Description</label>
         <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
       </div>
+      <div class="mb-3 row">
+        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Category:</label>
+        <div class="col-lg-10 col-md-6 col-sm-12">
+          <select name="categorie_id" class="form-control">
+            <option value="-1" disabled selected>Choose a category</option>
+            @foreach($viewData['categories'] as $categorie)
+                <option value="{{ $categorie['id'] }}" 
+                    {{ old('categorie_id', $product->categorie_id ?? '') == $categorie->id ? 'selected' : '' }}>
+                    {{ $categorie->name }}
+                </option>
+            @endforeach
+        </select>
+        </div>
+    </div>
+    
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
@@ -61,11 +76,27 @@
     Manage Products
   </div>
   <div class="card-body">
+     <!-- Category Filter -->
+    <form method="GET" action="{{ route('admin.product.index') }}">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <select name="categorie_id" class="form-control" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            @foreach($viewData['categories'] as $categorie)
+              <option value="{{ $categorie->id }}" {{ request('categorie_id') == $categorie->id ? 'selected' : '' }}>
+                {{ $categorie->name }}
+              </option>
+            @endforeach
+          </select>
+        </div>
+      </div>
+    </form>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
+          <th scope="col">Categorie</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
         </tr>
@@ -83,6 +114,7 @@
             " >
           <td>{{ $product->getId() }}</td>
           <td>{{ $product->getName() }}</td>
+          <td> {{$product->category->name}}</td>
           <td>
             <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
               <i class="bi-pencil"></i>
@@ -101,6 +133,7 @@
         @endforeach
       </tbody>
     </table>
+    
   </div>
 </div>
 @endsection
