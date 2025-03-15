@@ -43,7 +43,7 @@ class Product extends Model
     return $this->belongsTo(Categorie::class, 'categorie_id');
 }
 
-    public function fournisseurs(){
+    public function fournisseur(){
         return $this->belongsTo(fournisseur::class);
     }
 
