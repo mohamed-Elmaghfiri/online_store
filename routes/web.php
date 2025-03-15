@@ -27,7 +27,7 @@ Route::get('/products', [ProductController::class, 'index'])->name("product.inde
 Route::get('/products/{id}', [ProductController::class, 'show'])->name("product.show");
 
 Route::get('/cart', [CartController::class, 'index'])->name("cart.index");
-Route::post('/cart/delete', [CartController::class, 'delete'])->name("cart.delete");
+Route::delete('/cart/delete', [CartController::class, 'delete'])->name("cart.delete");
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name("cart.add");
 
 Route::middleware('auth')->group(function () {

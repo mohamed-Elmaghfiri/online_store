@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Item;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CartControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     public function test_cart_index()
     {
@@ -25,16 +26,29 @@ class CartControllerTest extends TestCase
         $product = Product::factory()->create();
         $response = $this->post('/cart/add/' . $product->id, ['quantity' => 1]);
         $response->assertRedirect('/cart');
-        $this->assertEquals(1, session('products')[$product->id]);
+        $cookies = $response->headers->getCookies();
+        $productsInCookie = json_decode($cookies[0]->getValue(), true);
+        $this->assertEquals(1, $productsInCookie[$product->id]);
+        
     }
 
     public function test_delete_cart()
     {
+        // $product = Product::factory()->create();
+        // session(['products' => [$product->id => 1]]);
+        // $response = $this->post('/cart/delete');
+        // $response->assertRedirect();
+        // $this->assertEmpty(session('products'));
         $product = Product::factory()->create();
-        session(['products' => [$product->id => 1]]);
-        $response = $this->post('/cart/delete');
+        
+        // Simulate adding product to cookie
+        $cookieValue = json_encode([$product->id => 1]);
+        $response = $this->withCookie('products', $cookieValue)->delete('/cart/delete');
+        
+        // Check if cookie is cleared
         $response->assertRedirect();
-        $this->assertEmpty(session('products'));
+        $cookies = $response->headers->getCookies();
+        $this->assertEmpty($cookies);
     }
 
     public function test_purchase()
