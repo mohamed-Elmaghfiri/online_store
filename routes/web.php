@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SuperAdminUserController\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,12 @@ Route::middleware('admin')->group(function () {
     Route::put('admin/categories/{id}/update', [AdminCategorieController::class, 'update'])->name("admin.categorie.update");
 
     Route::resource("admin/fournisseurs", AdminAdminFournisseurController::class);
+});
+
+Route::middleware(['auth', 'super_admin'])->group(function () {
+    Route::get('/superAdmin/create', [UserController::class, 'showCreateAdminForm']);
+    Route::post('/superAdmin/create', [UserController::class, 'createAdmin'])->name("superAdmin.createAdmin");
+    Route::get('/superAdmin', [UserController::class, 'index'])->name("superAdmin.index");
 });
 
 
