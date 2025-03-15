@@ -25,7 +25,8 @@ class Product extends Model
         'description',
         'image',
         'price',
-        'categorie_id'
+        'categorie_id',
+        'fournisseur_id'
     ];
 
     public static function validate($request)
@@ -41,6 +42,10 @@ class Product extends Model
 {
     return $this->belongsTo(Categorie::class, 'categorie_id');
 }
+
+    public function fournisseurs(){
+        return $this->belongsTo(fournisseur::class);
+    }
 
     public static function sumPricesByQuantities($products, $productsInSession)
     {

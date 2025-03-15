@@ -75,5 +75,5 @@
       <div class="d-flex justify-content-center">
         {{ $viewData["categories"]->links() }}
     </div>
-    </div>
+  </div>
 @endsection

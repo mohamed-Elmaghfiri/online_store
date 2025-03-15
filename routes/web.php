@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCategorieController;
+use App\Http\Controllers\Admin\AdminFournisseurController as AdminAdminFournisseurController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\CartController;
@@ -50,6 +51,8 @@ Route::middleware('admin')->group(function () {
     Route::delete('admin/categories/{id}', [AdminCategorieController::class, 'delete'])->name("admin.categorie.delete");
     Route::get('admin/categories/{id}/edit', [AdminCategorieController::class, 'edit'])->name("admin.categorie.edit");
     Route::put('admin/categories/{id}/update', [AdminCategorieController::class, 'update'])->name("admin.categorie.update");
+
+    Route::resource("admin/fournisseurs", AdminAdminFournisseurController::class);
 });
 
 
