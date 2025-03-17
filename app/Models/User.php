@@ -39,6 +39,7 @@ class User extends Authenticatable
         'password',
         'balance',
         'role',
+        'country',
     ];
     use HasFactory;
 

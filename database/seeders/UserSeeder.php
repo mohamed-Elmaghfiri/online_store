@@ -21,12 +21,15 @@ class UserSeeder extends Seeder
             'password' => Hash::make('aaaaaaaa'),
             'role' => 'admin',
             'balance' => 5000,
+            'country' => 'Morocco',
         ]);
         User::create([
             'name' => 'Super Admin',
             'email' => 'superAdmin@gmail.com',
             'password' => Hash::make('aaaaaaaa'),
             'role' => 'super_admin',
+            "country" => "France",  
         ]);
+        User::factory(3)->create();
     }
 }

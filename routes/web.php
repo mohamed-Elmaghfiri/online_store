@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminCategorieController;
 use App\Http\Controllers\Admin\AdminFournisseurController as AdminAdminFournisseurController;
 use App\Http\Controllers\Admin\AdminHomeController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyAccountController;
@@ -54,6 +55,9 @@ Route::middleware('admin')->group(function () {
     Route::put('admin/categories/{id}/update', [AdminCategorieController::class, 'update'])->name("admin.categorie.update");
 
     Route::resource("admin/fournisseurs", AdminAdminFournisseurController::class);
+
+    Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+    Route::get("/admin/statistics/download", [StatisticsController::class, 'exportPdf'])->name('statistics.exportPdf');
 });
 
 Route::middleware(['auth', 'super_admin'])->group(function () {
