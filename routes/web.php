@@ -43,6 +43,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/products/{id}/edit', [AdminProductController::class, 'edit'])->name("admin.product.edit");
     Route::put('/admin/products/{id}/update', [AdminProductController::class, 'update'])->name("admin.product.update");
     Route::get('/admin/products/filter', [AdminProductController::class, 'filter'])->name('admin.product.filter');
+    Route::get('/admin/products/export', [AdminProductController::class, 'export'])->name('admin.product.export');
+    Route::POST('/admin/products/import/', [AdminProductController::class, 'import'])->name('admin.product.import');
 
     // Category Routes
     Route::get('admin/categories', [AdminCategorieController::class, "index"])->name("admin.categorie.index");

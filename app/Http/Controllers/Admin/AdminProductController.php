@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductExport;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminProductController extends Controller
 {
@@ -94,5 +97,13 @@ class AdminProductController extends Controller
 
         $product->save();
         return redirect()->route('admin.product.index');
+    }
+    public function export()  {
+        return Excel::download(new ProductExport, 'product.xlsx');
+    }
+    public function import(Request $request){
+        Excel::import(new ProductImport,  $request->file('file'));
+        return redirect()->route('admin.product.index');
+    
     }
 }

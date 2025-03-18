@@ -75,7 +75,7 @@
   <div class="card-header">
     Manage Products
   </div>
-  <div class="card-body">
+  {{-- <div class="card-body">
      <!-- Category Filter -->
     <form method="GET" action="{{ route('admin.product.index') }}">
       <div class="row mb-3">
@@ -91,6 +91,19 @@
         </div>
       </div>
     </form>
+    <form action="{{ route('admin.product.import') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+      @csrf
+      <div class="mb-3 d-flex flex-column align-items-center">
+          <label for="file" class="form-label">Choose Excel File:</label>
+          <input type="file" name="file" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Import</button>
+  </form>
+  
+  <div class="d-flex justify-content-center mt-3">
+      <a href="{{ route('admin.product.export') }}" class="btn btn-success">Export</a>
+  </div>
+  
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -134,6 +147,106 @@
       </tbody>
     </table>
     
-  </div>
+  </div> --}}
+  <div class="card-body">
+    <!-- Category Filter -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <form method="GET" action="{{ route('admin.product.index') }}" class="w-100">
+            <div class="col-md-4">
+                <select name="categorie_id" class="form-control" onchange="this.form.submit()">
+                    <option value="">All Categories</option>
+                    @foreach($viewData['categories'] as $categorie)
+                        <option value="{{ $categorie->id }}" {{ request('categorie_id') == $categorie->id ? 'selected' : '' }}>
+                            {{ $categorie->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </form>
+
+        <!-- Import Form -->
+        <form action="{{ route('admin.product.import') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+            @csrf
+            <div class="mb-3">
+                <label for="file" class="form-label">Choose Excel File:</label>
+                <input type="file" name="file" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Import</button>
+        </form>
+        <div class="d-flex justify-content-center ">
+          <a href="{{ route('admin.product.export') }}" class="btn btn-success">Export</a>
+      </div>
+    </div>
+
+    <!-- Export Button -->
+   
+
+    <!-- Product Table -->
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Categorie</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($viewData["products"] as $product)
+                <tr class="
+                    @if($product->quantity_store == 0)
+                        bg-danger
+                    @elseif($product->quantity_store < 10)
+                        bg-warning  
+                    @else
+                        bg-success  
+                    @endif
+                ">
+                    <td>{{ $product->getId() }}</td>
+                    <td>{{ $product->getName() }}</td>
+                    <td>{{ $product->category->name }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ route('admin.product.edit', ['id'=> $product->getId()]) }}">
+                            <i class="bi-pencil"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <form action="{{ route('admin.product.delete', $product->getId()) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger">
+                                <i class="bi-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+
 </div>
 @endsection
+
+
+
+   
+  
+      {{-- <form action="{{ route('admin.product.import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label for="file" class="form-label">Choose Excel File:</label>
+            <input type="file" name="file" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+      <a href="{{ route('admin.product.export') }}" class="btn btn-success">Export</a>
+    </div>
+  </div>
+  <div class="card-body"> --}}
+    <!-- Category Filter -->
+    
+   
+             
