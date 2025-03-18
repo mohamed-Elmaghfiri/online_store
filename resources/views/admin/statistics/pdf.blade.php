@@ -37,95 +37,116 @@
 </head>
 <body>
 
-    <h1>{{ $title }}</h1>
+    <h1>{{ $viewData['title'] }}</h1>
 
-    <h2>Chiffre d'affaire et Bénéfice</h2>
+    <h2>Statistics Report</h2>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Produit</th>
-                <th>Chiffre d'affaire</th>
-                <th>Bénéfice</th>
                 <th>Type</th>
+                <th>Revenue ($)</th>
+                <th>Profit ($)</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="4"><strong>Today</strong></td>
+                <td><strong>Today</strong></td>
+                <td>{{ number_format($viewData['revenueToday'], 2) }}</td>
+                <td>{{ number_format($viewData['profitToday'], 2) }}</td>
             </tr>
             <tr>
-                <td>Chiffre d'affaire Aujourd'hui</td>
-                <td>{{ number_format($revenueToday, 2) }} $</td>
-                <td>{{ number_format($profitToday, 2) }} $</td>
-                <td>Today</td>
+                <td><strong>This Month</strong></td>
+                <td>{{ number_format($viewData['revenueMonth'], 2) }}</td>
+                <td>{{ number_format($viewData['profitMonth'], 2) }}</td>
             </tr>
             <tr>
-                <td>Chiffre d'affaire Ce Mois</td>
-                <td>{{ number_format($revenueMonth, 2) }} $</td>
-                <td>{{ number_format($profitMonth, 2) }} $</td>
-                <td>Month</td>
+                <td><strong>This Year</strong></td>
+                <td>{{ number_format($viewData['revenueYear'], 2) }}</td>
+                <td>{{ number_format($viewData['profitYear'], 2) }}</td>
             </tr>
+        </tbody>
+    </table>
+
+    <h2>Breakdown</h2>
+
+    <!-- By Product -->
+    <h3>By Product</h3>
+    <table class="table">
+        <thead>
             <tr>
-                <td>Chiffre d'affaire Cette Année</td>
-                <td>{{ number_format($revenueYear, 2) }} $</td>
-                <td>{{ number_format($profitYear, 2) }} $</td>
-                <td>Year</td>
+                <th>Product</th>
+                <th>Revenue ($)</th>
+                <th>Profit ($)</th>
             </tr>
-            {{-- <tr>
-                <td>Chiffre d'affaire Période 2024</td>
-                <td>{{ number_format($revenuePeriod, 2) }} $</td> --}}
-                {{-- <td>{{ number_format($profitPeriod, 2) }} $</td>
-                <td>Period</td>
-            </tr>
-             --}}
-            <tr>
-                <td colspan="4"><strong>By Product</strong></td>
-            </tr>
-            @foreach($revenueByProduct as $product)
+        </thead>
+        <tbody>
+            @foreach($viewData['revenueByProduct'] as $product)
                 <tr>
                     <td>{{ $product->produit }}</td>
-                    <td>{{ number_format($product->revenue, 2) }} $</td>
-                    <td>{{ number_format($product->profit, 2) }} $</td>
-                    <td>Product</td>
-                </tr>
-            @endforeach
-            <tr>
-                <td colspan="4"><strong>By Category</strong></td>
-            </tr>
-            @foreach($revenueByCategory as $category)
-                <tr>
-                    <td>{{ $category->categorie }}</td>
-                    <td>{{ number_format($category->revenue, 2) }} $</td>
-                    <td>{{ number_format($category->profit, 2) }} $</td>
-                    <td>Category</td>
-                </tr>
-            @endforeach
-            <tr>
-                <td colspan="4"><strong>By Country</strong></td>
-            </tr>
-            @foreach($revenueByCountry as $country)
-                <tr>
-                    <td>{{ $country->pays }}</td>
-                    <td>{{ number_format($country->revenue, 2) }} $</td>
-                    <td>{{ number_format($country->profit, 2) }} $</td>
-                    <td>country</td>
+                    <td>{{ number_format($product->revenue, 2) }}</td>
+                    <td>
+                        @php
+                            $profit = $viewData['profitByProduct']->firstWhere('produit', $product->produit);
+                        @endphp
+                        {{ number_format($profit ? $profit->profit : 0, 2) }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 
-    <div class="summary">
-        <h3>Summary</h3>
-        <p><strong>Total Revenue Today:</strong> ${{ number_format($revenueToday, 2) }}</p>
-        <p><strong>Total Profit Today:</strong> ${{ number_format($profitToday, 2) }}</p>
-        <p><strong>Total Revenue This Month:</strong> ${{ number_format($revenueMonth, 2) }}</p>
-        <p><strong>Total Profit This Month:</strong> ${{ number_format($profitMonth, 2) }}</p>
-        <p><strong>Total Revenue This Year:</strong> ${{ number_format($revenueYear, 2) }}</p>
-        <p><strong>Total Profit This Year:</strong> ${{ number_format($profitYear, 2) }}</p>
-        {{-- <p><strong>Total Revenue Period 2024:</strong> ${{ number_format($revenuePeriod, 2) }}</p> --}}
-        {{-- <p><strong>Total Profit Period 2024:</strong> ${{ number_format($profitPeriod, 2) }}</p> --}}
-    </div>
+    <!-- By Category -->
+    <h3>By Category</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Revenue ($)</th>
+                <th>Profit ($)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($viewData['revenueByCategory'] as $category)
+                <tr>
+                    <td>{{ $category->categorie }}</td>
+                    <td>{{ number_format($category->revenue, 2) }}</td>
+                    <td>
+                        @php
+                            $profit = $viewData['profitByCategory']->firstWhere('categorie', $category->categorie);
+                        @endphp
+                        {{ number_format($profit ? $profit->profit : 0, 2) }}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <!-- By Country -->
+    <h3>By Country</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Revenue ($)</th>
+                <th>Profit ($)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($viewData['revenueByCountry'] as $country)
+                <tr>
+                    <td>{{ $country->pays }}</td>
+                    <td>{{ number_format($country->revenue, 2) }}</td>
+                    <td>
+                        @php
+                            $profit = $viewData['profitByCountry']->firstWhere('pays', $country->pays);
+                        @endphp
+                        {{ number_format($profit ? $profit->profit : 0, 2) }}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
 </body>
 </html>

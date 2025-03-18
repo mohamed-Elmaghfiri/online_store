@@ -4,6 +4,23 @@
 <div class="container">
     <h1 class="mb-4">{{ $viewData['title'] }}</h1>
 
+    <!-- Date Range Form -->
+    <form method="GET" action="{{ route('statistics.index') }}" class="mb-4">
+        <div class="row">
+            <div class="col-md-5">
+                @php
+                    use Carbon\Carbon;
+                @endphp
+                <input type="date" name="start_date" class="form-control" value="{{ request('start_date', Carbon::today()->toDateString()) }}">
+            </div>
+            <div class="col-md-5">
+                <input type="date" name="end_date" class="form-control" value="{{ request('end_date', Carbon::today()->toDateString()) }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Filtrer</button>
+            </div>
+        </div>
+    </form>
     <!-- Chiffre d'affaires (Revenue) -->
     <div class="row mb-4">
         <div class="col-md-6">
@@ -190,7 +207,7 @@
 
     <!-- Bouton pour exporter en PDF -->
     <div class="text-center my-4">
-        <a href="{{ route('statistics.exportPdf') }}" class="btn btn-danger">Télécharger le rapport PDF</a>
+        <a href="{{ route('statistics.exportPdf', request()->all() ) }}" class="btn btn-danger">Télécharger le rapport PDF</a>
     </div>
 </div>
 @endsection
