@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminCategorieController;
 use App\Http\Controllers\Admin\AdminFournisseurController as AdminAdminFournisseurController;
 use App\Http\Controllers\Admin\AdminHomeController;
+use App\Http\Controllers\Admin\AdminOrderContrller;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\CartController;
@@ -60,6 +61,9 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     Route::get("/admin/statistics/download", [StatisticsController::class, 'exportPdf'])->name('statistics.exportPdf');
+
+    Route::get('/admin/orders', [AdminOrderContrller::class, 'index'])->name('admin.order.index');
+    Route::put('/orders/{order}/status', [AdminOrderContrller::class, 'updateStatus'])->name('orders.updateStatus');
 });
 
 Route::middleware(['auth', 'super_admin'])->group(function () {

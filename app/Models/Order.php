@@ -20,6 +20,8 @@ class Order extends Model
      * $this->items - Item[] - contains the associated items
      */
         use HasFactory;
+    protected $fillable = ['total', 'user_id',"status"];
+     
 
     public static function validate($request)
     {
