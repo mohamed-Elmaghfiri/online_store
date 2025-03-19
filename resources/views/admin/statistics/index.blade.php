@@ -14,7 +14,7 @@
                 <input type="date" name="start_date" class="form-control" value="{{ request('start_date', Carbon::today()->toDateString()) }}">
             </div>
             <div class="col-md-5">
-                <input type="date" name="end_date" class="form-control" value="{{ request('end_date', Carbon::today()->toDateString()) }}">
+                <input type="date" name="end_date" class="form-control" value="{{ request('end_date', Carbon::tomorrow()->toDateString()) }}">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary">Filtrer</button>

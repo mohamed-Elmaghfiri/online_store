@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -13,7 +15,7 @@ class ProductController extends Controller
         $viewData = [];
         $viewData["title"] = "Products - Online Store";
         $viewData["subtitle"] =  "List of products";
-        $viewData["products"] = Product::all();
+        $viewData["products"] = Product::paginate(8);
         return view('product.index')->with("viewData", $viewData);
     }
 
@@ -27,4 +29,5 @@ class ProductController extends Controller
         // dd($viewData );
         return view('product.show')->with("viewData", $viewData);
     }
+    
 }

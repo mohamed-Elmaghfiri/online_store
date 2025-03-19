@@ -15,10 +15,14 @@ class CartController extends Controller
         $total = 0;
         $productsInCart = [];
 
-        $productsInSession = $request->session()->get("products");
-        if ($productsInSession) {
-            $productsInCart = Product::findMany(array_keys($productsInSession));
-            $total = Product::sumPricesByQuantities($productsInCart, $productsInSession);
+        // $productsInSession = $request->session()->get("products");
+        $productsInCookie = json_decode($request->cookie("products"), true) ?? [];
+
+  
+
+        if ($productsInCookie) {
+            $productsInCart = Product::findMany(array_keys($productsInCookie));
+            $total = Product::sumPricesByQuantities($productsInCart, $productsInCookie);
         }
 
         $viewData = [];
@@ -31,23 +35,28 @@ class CartController extends Controller
 
     public function add(Request $request, $id)
     {
-        $products = $request->session()->get("products");
+        // $products = $request->session()->get("products");
+        $products = json_decode($request->cookie("products"), true) ?? [];
         $products[$id] = $request->input('quantity');
-        $request->session()->put('products', $products);
+        // $request->session()->put('products', $products);
+        cookie()->queue(cookie("products", json_encode($products), 60 * 24 * 7));
 
         return redirect()->route('cart.index');
     }
 
     public function delete(Request $request)
     {
-        $request->session()->forget('products');
+        // $request->session()->forget('products');
+        cookie()->queue(cookie("products", "", -1));
         return back();
     }
 
     public function purchase(Request $request)
     {
-        $productsInSession = $request->session()->get("products");
-        if ($productsInSession) {
+        // $productsInSession = $request->session()->get("products");
+        $productsInCookie = json_decode($request->cookie("products"), true) ?? [];
+
+        if ($productsInCookie) {
             $userId = Auth::user()->getId();
             $order = new Order();
             $order->setUserId($userId);
@@ -55,9 +64,9 @@ class CartController extends Controller
             $order->save();
 
             $total = 0;
-            $productsInCart = Product::findMany(array_keys($productsInSession));
+            $productsInCart = Product::findMany(array_keys($productsInCookie));
             foreach ($productsInCart as $product) {
-                $quantity = $productsInSession[$product->getId()];
+                $quantity = $productsInCookie[$product->getId()];
                 $item = new Item();
                 $item->setQuantity($quantity);
                 $item->setPrice($product->getPrice());
@@ -79,7 +88,8 @@ class CartController extends Controller
 
 
 
-            $request->session()->forget('products');
+            // $request->session()->forget('products');
+            cookie()->queue(cookie("products", "", -1));
 
             $viewData = [];
             $viewData["title"] = "Purchase - Online Store";

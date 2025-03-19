@@ -19,5 +19,8 @@
       </div>
     </div>
   @endforeach
+  <div class="d-flex justify-content-center">
+    {{ $viewData["products"]->links() }}
+</div>
 </div>
 @endsection

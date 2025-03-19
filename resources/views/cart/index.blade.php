@@ -22,7 +22,7 @@
           <td>{{ $product->getId() }}</td>
           <td>{{ $product->getName() }}</td>
           <td>${{ $product->getPrice() }}</td>
-          <td>{{ session('products')[$product->getId()] }}</td>
+          <td>{{ $viewData['productsInCookie'][$product->getId()] ?? 0 }}</td>
         </tr>
         @endforeach
       </tbody>
