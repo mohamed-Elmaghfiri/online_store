@@ -112,6 +112,7 @@
           <th scope="col">Name</th>
           <th scope="col">Categorie</th>
           <th scope="col">Fournisseur</th>
+          <th scope="col">Quantity</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
         </tr>
@@ -131,6 +132,7 @@
           <td>{{ $product->getName() }}</td>
           <td> {{ $product->category->name }}</td>
           <td> {{ $product->fournisseur->raison_social }}</td>
+          <td>{{ $product->quantity_store }}</td>
           <td>
             <a class="btn btn-primary" href="{{route('admin.product.edit', ['id'=> $product->getId()])}}">
               <i class="bi-pencil"></i>
