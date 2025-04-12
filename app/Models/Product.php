@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Item;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Discount;
+use Carbon\Carbon;
 
 class Product extends Model
 {
@@ -141,4 +143,32 @@ class Product extends Model
     {
         $this->items = $items;
     }
+
+
+
+public function discount()
+{
+    return $this->hasOne(Discount::class);
+}
+
+public function getDiscountedPrice()
+{
+    if ($this->isDiscountActive()) {
+        return $this->price - ($this->price * $this->discount->percentage / 100);
+    }
+    return $this->price;
+}
+
+public function getFormattedDiscountedPrice()
+{
+    return number_format($this->getDiscountedPrice(), 2);
+}
+
+public function isDiscountActive()
+{
+    $discount = $this->discount;
+    $now = now();
+
+    return $discount && $now >= $discount->start_date && $now <= $discount->end_date;
+}
 }
