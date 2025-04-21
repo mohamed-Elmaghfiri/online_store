@@ -10,15 +10,28 @@ use Maatwebsite\Excel\Facades\Excel;
 class ProductController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $viewData = [];
         $viewData["title"] = "Products - Online Store";
         $viewData["subtitle"] =  "List of products";
-        $viewData["products"] = Product::paginate(8);
+        
+        $query = Product::with('discount');
+    
+        if ($request->has('on_sale') && $request->get('on_sale') == 1) {
+            $query->whereHas('discount', function ($q) {
+                $now = now();
+                $q->where('start_date', '<=', $now)
+                  ->where('end_date', '>=', $now);
+            });
+        }
+    
+        $viewData["products"] = $query->paginate(8);
+        
         return view('product.index')->with("viewData", $viewData);
     }
 
+    
     public function show($id)
     {
         $viewData = [];

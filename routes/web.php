@@ -64,6 +64,8 @@ Route::middleware('admin')->group(function () {
 
     Route::get('/admin/orders', [AdminOrderContrller::class, 'index'])->name('admin.order.index');
     Route::put('/orders/{order}/status', [AdminOrderContrller::class, 'updateStatus'])->name('orders.updateStatus');
+
+    Route::resource('/admin/discounts', \App\Http\Controllers\Admin\DiscountController::class);
 });
 
 Route::middleware(['auth', 'super_admin'])->group(function () {

@@ -25,10 +25,12 @@
         <li><a href="{{ route('admin.categorie.index') }}" class="nav-link text-white">- Admin - Categories</a></li>
         <li><a href="{{ url('admin/fournisseurs') }}" class="nav-link text-white">- Admin - Fournisseurs</a></li>
         <li><a href="{{ url('admin/statistics') }}" class="nav-link text-white">- Admin - Statistics</a></li>
-      <li><a href="{{ url('admin/orders') }}" class="nav-link text-white">- Admin - Orders</a></li>
+        <li><a href="{{ url('admin/orders') }}" class="nav-link text-white">- Admin - Orders</a></li>
+        <li><a href="{{ url('admin/discounts/create') }}" class="nav-link text-white">- Admin - Discounts</a></li>
         <li>
           <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home page</a>
         </li>
+         
       </ul>
     </div>
     <!-- sidebar -->
