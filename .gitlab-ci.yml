@@ -25,9 +25,10 @@ cache:
     - node_modules/
 
 before_script:
+  - apt-get update -yqq && apt-get install -y libgd-dev # Install GD library dependencies
+  - docker-php-ext-install gd # Install PHP GD extension
   - cp .env.example .env
-  - docker-php-ext-install gd # Install the GD extension
-  - composer install --prefer-dist --no-progress
+  - composer install --prefer-dist --no-progress --ignore-platform-req=ext-gd
   - php artisan key:generate
   - php artisan migrate --force
 
