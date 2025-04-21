@@ -41,7 +41,7 @@ setup:
 test:
   stage: test
   script:
-    - php artisan test
+    - vendor/bin/phpunit --testsuite=Feature --testsuite=Unit
   artifacts:
     when: always
     paths:
