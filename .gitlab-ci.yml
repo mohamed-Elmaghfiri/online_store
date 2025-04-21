@@ -25,13 +25,17 @@ cache:
     - node_modules/
 
 before_script:
+  # Update and install required libraries
   - apt-get update -yqq
   - apt-get install -y libgd-dev libzip-dev libpng-dev zlib1g-dev
+  # Install PHP extensions
   - docker-php-ext-install gd pdo pdo_mysql zip
+  # Set up the environment
   - cp .env.example .env
   - composer install --prefer-dist --no-progress
   - php artisan key:generate
-  - php artisan migrate --force
+  - php artisan migrate:fresh --force  # Changed from migrate to fresh
+  - composer dump-autoload  # Moved after migrations
 
 setup:
   stage: setup
