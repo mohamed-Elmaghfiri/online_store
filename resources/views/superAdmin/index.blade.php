@@ -5,7 +5,7 @@
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h3 class="mb-0">User Management</h3>
-            {{-- <a href="{{ route('superadmin.createAdminForm') }}" class="btn btn-light">Create Admin</a> --}}
+            <a href="{{ url("/superAdmin/create") }}" class="btn btn-light">Create Admin</a>
         </div>
         <div class="card-body">
             @if(session('success'))
