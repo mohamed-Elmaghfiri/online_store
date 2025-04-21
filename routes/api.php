@@ -18,12 +18,12 @@ use App\Http\Controllers\API\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/login', [AuthController::class, 'login']); // تسجيل الدخول API
+Route::post('/login', [AuthController::class, 'login']); 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']); // تسجيل الخروج API
+    Route::post('/logout', [AuthController::class, 'logout']); 
     Route::get('/user', function (Request $request) {
-        return $request->user(); // جلب بيانات المستخدم المسجل
+        return $request->user();
     });
 });
 
