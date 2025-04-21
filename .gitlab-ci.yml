@@ -26,7 +26,8 @@ cache:
 
 before_script:
   - cp .env.example .env
-  - composer install --prefer-dist --no-progress --no-suggest
+  - docker-php-ext-install gd # Install the GD extension
+  - composer install --prefer-dist --no-progress
   - php artisan key:generate
   - php artisan migrate --force
 
