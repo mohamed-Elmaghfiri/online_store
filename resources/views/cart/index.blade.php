@@ -39,7 +39,7 @@
     </div>
 
     <div class="flex gap-3">
-      <a href="{{ route('cart.purchase') }}"
+      <a href="{{ route('payment.add') }}"
          class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition">
         ✔️ Checkout
       </a>
