@@ -57,21 +57,29 @@ class CartController extends Controller
 
     public function purchase(Request $request)
     {
-        // $productsInSession = $request->session()->get("products");
         $productsInCookie = json_decode($request->cookie("products"), true) ?? [];
-
+    
         if ($productsInCookie) {
             $userId = Auth::user()->getId();
             $order = new Order();
             $order->setUserId($userId);
-            $order->name = $request->name;
-            $order->phone = $request->phone;
-            $order->address = $request->address;
+    
+            // التحقق من نوع الدفع
+            $method = $request->input('method'); // 'cash' أو 'online'
+            if ($method === 'Cash on Delivery') {
+                // فقط عند الدفع عند الاستلام
+                $order->name = $request->input('name');
+                $order->phone = $request->input('phone');
+                $order->address = $request->input('address');
+              
+            }
+    
             $order->setTotal(0);
             $order->save();
-
+    
             $total = 0;
             $productsInCart = Product::findMany(array_keys($productsInCookie));
+    
             foreach ($productsInCart as $product) {
                 $quantity = $productsInCookie[$product->getId()];
                 $item = new Item();
@@ -80,28 +88,31 @@ class CartController extends Controller
                 $item->setProductId($product->getId());
                 $item->setOrderId($order->getId());
                 $item->save();
-                // update quantity_tore of product
+    
+                // تقليل الكمية المتاحة في المخزون
                 $product->quantity_store -= $quantity;
                 $product->save();
+    
                 $total += $product->getPrice() * $quantity;
-                $total = $total + ($product->getPrice()*$quantity);
             }
+    
             $order->setTotal($total);
+            $order->payment_method = $request->input('method');
             $order->save();
-
+    
+            // خصم الرصيد إن لزم
             $newBalance = Auth::user()->getBalance() - $total;
             Auth::user()->setBalance($newBalance);
             Auth::user()->save();
-
-
-
-            // $request->session()->forget('products');
+    
+            // تنظيف الكوكيز
             cookie()->queue(cookie("products", "", -1));
-
+    
             $viewData = [];
             $viewData["title"] = "Purchase - Online Store";
-            $viewData["subtitle"] =  "Purchase Status";
-            $viewData["order"] =  $order;
+            $viewData["subtitle"] = "Purchase Status";
+            $viewData["order"] = $order;
+    
             return view('cart.purchase')->with("viewData", $viewData);
         } else {
             return redirect()->route('cart.index');
