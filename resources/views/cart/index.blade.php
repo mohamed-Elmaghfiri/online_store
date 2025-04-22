@@ -1,6 +1,8 @@
 @extends('layouts.app')
+
 @section('title', $viewData["title"])
 @section('subtitle', $viewData["subtitle"])
+
 @section('content')
 <div class="card">
   <div class="card-header">
@@ -27,18 +29,33 @@
         @endforeach
       </tbody>
     </table>
+
     <div class="row">
-      <div class="text-end">
-        <a class="btn btn-outline-secondary mb-2"><b>Total to pay:</b> ${{ $viewData["total"] }}</a>
-        @if (count($viewData["products"]) > 0)
-        <a href="{{ route('cart.purchase') }}" class="btn bg-primary text-white mb-2">Purchase</a>
-        <a href="{{ route('cart.delete') }}">
-          <button class="btn btn-danger mb-2">
+
+        <div class="text-end">
+        <form action="{{ route('payment.add') }}" method="POST">
+        @csrf
+          <a class="btn btn-outline-secondary mb-2">
+            <b>Total to pay:</b> ${{ $viewData["total"] }}
+          </a>
+
+          @if (count($viewData["products"]) > 0)
+          <div class="mb-3">
+            <label for="payment_method" class="form-label">Choose Payment Method:</label>
+            <select name="payment_method" id="payment_method" class="form-control" required>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+              
+            </select>
+          </div> <button type="submit" class="btn btn-success mb-2">Confirm Order</button>
+          </form>
+         
+         <!-- <a href="{{ route('cart.purchase') }}" class="btn bg-primary text-white mb-2">Purchase</a> -->
+          <a href="{{ route('cart.delete') }}" class="btn btn-danger mb-2">
             Remove all products from Cart
-          </button>
-        </a>
-        @endif
-      </div>
+          </a>
+          @endif
+        </div>
+
     </div>
   </div>
 </div>
