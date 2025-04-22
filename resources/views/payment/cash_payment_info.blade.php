@@ -32,9 +32,10 @@
             <div class="text-center">
                 <button type="submit"
                         class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300">
-                    تأكيد الطلب
+                        Confirm Order
                 </button>
             </div>
+            <input type="hidden" name="method" value="Cash on Delivery">
         </form>
     </div>
 </div>

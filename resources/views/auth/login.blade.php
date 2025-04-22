@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+<div class="flex items-center justify-center  bg-gray-100 px-4">
   <div class="bg-white p-10 rounded-xl shadow-lg w-full max-w-xl">
     <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">Login</h2>
 
@@ -38,7 +38,7 @@
       {{-- Submit & Forgot --}}
       <div class="flex flex-col gap-4">
         <button type="submit"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold py-3 rounded-lg transition">
+          class="w-full  bg-green-600 hover:bg-green-700 text-white text-xl font-semibold py-3 rounded-lg transition">
           Login
         </button>
 

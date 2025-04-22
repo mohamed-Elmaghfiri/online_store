@@ -4,7 +4,6 @@
 <div class="container mx-auto mt-8">
     <h2 class="text-2xl font-bold mb-6">Orders List</h2>
 
-   
     @if($orders->isEmpty())
         <div class="bg-blue-100 text-blue-700 p-4 rounded text-center">
             There are no orders currently.
@@ -21,9 +20,13 @@
                 <p><strong>Status:</strong> {{ $order->status }}</p>
                 <p><strong>Payment Method:</strong> {{ $order->payment_method }}</p>
                 <p><strong>Total:</strong> {{ number_format($order->total, 2) }} DH</p>
-                <p><strong>Name:</strong> {{ $order->name }}</p>
-                <p><strong>Phone:</strong> {{ $order->phone }}</p>
-                <p><strong>Address:</strong> {{ $order->address }}</p>
+
+                @if($order->payment_method === 'Cash on Delivery')
+                    <p><strong>Name:</strong> {{ $order->name }}</p>
+                    <p><strong>Phone:</strong> {{ $order->phone }}</p>
+                    <p><strong>Address:</strong> {{ $order->address }}</p>
+                @endif
+
                 <p><strong>Created At:</strong> {{ $order->created_at->format('Y-m-d H:i') }}</p>
 
                 <h5 class="text-lg font-bold mt-6">Products:</h5>
@@ -50,7 +53,6 @@
             </div>
         </div>
         @endforeach
-
     @endif
 </div>
 @endsection

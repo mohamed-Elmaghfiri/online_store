@@ -53,7 +53,7 @@
   </header>
 
   <!-- المحتوى الرئيسي -->
-  <div class="container min-h-screen mx-auto my-8">
+  <div class="container min-h-[calc(100vh-17rem)] mx-auto my-8">
     @yield('content')
   </div>
 
@@ -79,3 +79,4 @@
 
 </body>
 </html>
+

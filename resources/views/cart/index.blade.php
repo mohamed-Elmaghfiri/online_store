@@ -46,6 +46,7 @@
           class="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
           required>
           <option value="Cash on Delivery">Cash on Delivery</option>
+          <option  value="Online">Online</option>
         </select>
       </div>
 
