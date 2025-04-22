@@ -13,6 +13,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SuperAdminUserController\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController as paymentController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +38,12 @@ Route::post('/cart/add/{id}', [CartController::class, 'add'])->name("cart.add");
 
 Route::middleware('auth')->group(function () {
     Route::get('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
+
     Route::get('/my-account/orders', [MyAccountController::class, 'orders'])->name("myaccount.orders");
+   
+    Route::post('/payment', [paymentController::class, 'processPaymentMethod'])->name("payment.add");
+    Route::post('/payment/online/process', [PaymentController::class, 'saveCashPayment'])->name('payments.processOnline');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
 Route::middleware('admin')->group(function () {
