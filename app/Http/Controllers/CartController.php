@@ -60,6 +60,9 @@ class CartController extends Controller
             $userId = Auth::user()->getId();
             $order = new Order();
             $order->setUserId($userId);
+            $order->name = $request->name;
+            $order->phone = $request->phone;
+            $order->address = $request->address;
             $order->setTotal(0);
             $order->save();
 

@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
+
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = \App\Models\Order::with(['user', 'items.product'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(3); 
+        $orders = Order::with(['user', 'items.product'])
+            ->orderBy('created_at', 'desc')->get(); 
+
+            
     
         return view('orders.index', compact('orders'));
     }

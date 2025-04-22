@@ -4,59 +4,87 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- رابط ملف CSS الخاص بك إن وجد -->
   <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
+
+  <!-- رابط Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
   <title>@yield('title', 'Admin - Online Store')</title>
 </head>
 
-<body class="bg-gray-100">
-  <div class="flex">
-    <!-- sidebar -->
-    <div class="w-64 bg-gray-800 text-white min-h-screen p-4">
-      <a href="{{ route('admin.home.index') }}" class="text-white text-xl font-bold block mb-4">
+<body class="bg-light">
+
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="bg-dark text-white p-3" style="width: 250px; min-height: 100vh;">
+      <a href="{{ route('admin.home.index') }}" class="text-white fs-4 fw-bold d-block mb-3 text-decoration-none">
         Admin Panel
       </a>
-      <hr class="border-gray-600 mb-4" />
-      <ul class="space-y-2">
-        <li><a href="{{ route('admin.home.index') }}" class="block text-gray-300 hover:text-white">- Admin - Home</a></li>
-        <li><a href="{{ route('admin.product.index') }}" class="block text-gray-300 hover:text-white">- Admin - Products</a></li>
-        <li><a href="{{ route('admin.categorie.index') }}" class="block text-gray-300 hover:text-white">- Admin - Categories</a></li>
-        <li><a href="{{ url('admin/fournisseurs') }}" class="block text-gray-300 hover:text-white">- Admin - Fournisseurs</a></li>
-        <li><a href="{{ url('admin/statistics') }}" class="block text-gray-300 hover:text-white">- Admin - Statistics</a></li>
-        <li><a href="{{ url('admin/orders') }}" class="block text-gray-300 hover:text-white">- Admin - Orders</a></li>
-        <li><a href="{{ url('admin/discounts/create') }}" class="block text-gray-300 hover:text-white">- Admin - Discounts</a></li>
-        <li>
-          <a href="{{ route('home.index') }}" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+      <hr class="border-secondary" />
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a href="{{ route('admin.home.index') }}" class="nav-link text-white-50 hover-white">- Admin - Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('admin.product.index') }}" class="nav-link text-white-50 hover-white">- Admin - Products</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('admin.categorie.index') }}" class="nav-link text-white-50 hover-white">- Admin - Categories</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/fournisseurs') }}" class="nav-link text-white-50 hover-white">- Admin - Fournisseurs</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/statistics') }}" class="nav-link text-white-50 hover-white">- Admin - Statistics</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/orders') }}" class="nav-link text-white-50 hover-white">- Admin - Orders</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/discounts/create') }}" class="nav-link text-white-50 hover-white">- Admin - Discounts</a>
+        </li>
+        <li class="nav-item mt-4">
+          <a href="{{ route('home.index') }}" class="btn btn-primary w-100">
             Go back to the home page
           </a>
         </li>
       </ul>
-    </div>
-    <!-- sidebar -->
+    </nav>
+    <!-- End Sidebar -->
 
-    <div class="flex-1">
-      <nav class="bg-white shadow p-4 flex justify-end items-center">
-        <span class="text-gray-700 font-medium mr-4">Admin</span>
-        <img class="w-10 h-10 rounded-full" src="{{ asset('/img/undraw_profile.svg') }}" alt="Profile">
+    <!-- Main Content -->
+    <div class="flex-fill">
+      <!-- Navbar -->
+      <nav class="navbar navbar-light bg-white shadow-sm px-4 d-flex justify-content-end align-items-center">
+        <span class="text-muted me-3">Admin</span>
+        <img src="{{ asset('/img/undraw_profile.svg') }}" alt="Profile" class="rounded-circle" width="40" height="40">
       </nav>
 
-      <div class="p-6">
+      <!-- Content Area -->
+      <main class="p-4">
         @yield('content')
-      </div>
+      </main>
     </div>
+    <!-- End Main Content -->
   </div>
 
-  <!-- footer -->
-  <footer class="bg-gray-800 text-white py-4 text-center">
-    <div class="container mx-auto">
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-3 text-center mt-auto">
+    <div class="container">
       <small>
-        Copyright - <a class="text-blue-400 hover:underline" target="_blank"
-          href="https://twitter.com/danielgarax">
+        &copy; <a class="text-info text-decoration-none" target="_blank" href="https://twitter.com/danielgarax">
           Daniel Correa
-        </a> - <b>Paola Vallejo</b>
+        </a> - <strong>Paola Vallejo</strong>
       </small>
     </div>
   </footer>
-  <!-- footer -->
+  <!-- End Footer -->
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

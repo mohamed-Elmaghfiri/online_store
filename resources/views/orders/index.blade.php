@@ -4,7 +4,7 @@
 <div class="container mx-auto mt-8">
     <h2 class="text-2xl font-bold mb-6">Orders List</h2>
 
-    {{-- إذا لم يكن هناك أي طلبات --}}
+   
     @if($orders->isEmpty())
         <div class="bg-blue-100 text-blue-700 p-4 rounded text-center">
             There are no orders currently.
@@ -51,9 +51,6 @@
         </div>
         @endforeach
 
-        <div class="mt-8 flex justify-center">
-            {{ $orders->links('pagination::tailwind') }}
-        </div>
     @endif
 </div>
 @endsection

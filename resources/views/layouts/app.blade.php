@@ -27,14 +27,14 @@
         <a class="text-white hover:text-gray-300" href="{{ route('home.index') }}">Home</a>
         <a class="text-white hover:text-gray-300" href="{{ route('product.index') }}">Products</a>
         <a class="text-white hover:text-gray-300" href="{{ route('cart.index') }}">Cart</a>
-        <a class="text-white hover:text-gray-300" href="{{ route('orders.index') }}">Orders</a>
+
         <a class="text-white hover:text-gray-300" href="{{ route('home.about') }}">About</a>
 
         @guest
           <a class="text-white hover:text-gray-300" href="{{ route('login') }}">Login</a>
           <a class="text-white hover:text-gray-300" href="{{ route('register') }}">Register</a>
         @else
-          <a class="text-white hover:text-gray-300" href="{{ route('myaccount.orders') }}">My Orders</a>
+          <a class="text-white hover:text-gray-300" href="{{ route('orders.index') }}">My Orders</a>
           <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
             @csrf
             <a role="button" class="text-white hover:text-gray-300"

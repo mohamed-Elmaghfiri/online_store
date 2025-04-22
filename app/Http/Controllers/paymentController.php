@@ -55,9 +55,7 @@ public function saveCashPayment(Request $request)
     $order->user_id = auth()->id(); // ربط الطلب بالمستخدم
     $order->payment_method = 'Cash on Delivery';
     $order->status = 'Packed'; // الحالة الابتدائية
-    $order->name = $request->name;
-    $order->phone = $request->phone;
-    $order->address = $request->address;
+
     $order->total = $this->calculateCartTotal(); // ضع هنا دالة لحساب السعر
     $order->save();
 
