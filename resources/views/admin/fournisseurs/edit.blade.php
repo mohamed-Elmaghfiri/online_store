@@ -3,52 +3,50 @@
 @section('title', 'Edit Fournisseur')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        <h3>Edit Fournisseur</h3>
-    </div>
+<div class="bg-white shadow rounded-lg p-6">
+    <h3 class="text-xl font-bold mb-4">Edit Fournisseur</h3>
 
-    <div class="card-body">
-        @if($errors->any())
-            <ul class="alert alert-danger list-unstyled">
-                @foreach($errors->all() as $error)
-                    <li>- {{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+    @if($errors->any())
+        <ul class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            @foreach($errors->all() as $error)
+                <li>- {{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
 
-        <form method="POST" action="{{ url('/admin/fournisseurs/' . $viewData['fournisseur']->id) }}">
-            @csrf
-            @method('PUT')
+    <form method="POST" action="{{ url('/admin/fournisseurs/' . $viewData['fournisseur']->id) }}" class="space-y-4">
+        @csrf
+        @method('PUT')
 
-            <div class="mb-3">
-                <label class="form-label">Raison Social</label>
-                <input type="text" name="raison_social" class="form-control" value="{{ old('raison_social', $viewData['fournisseur']->raison_social) }}">
-            </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Raison Social</label>
+            <input type="text" name="raison_social" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ old('raison_social', $viewData['fournisseur']->raison_social) }}">
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Adresse</label>
-                <input type="text" name="adresse" class="form-control" value="{{ old('adresse', $viewData['fournisseur']->adresse) }}">
-            </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Adresse</label>
+            <input type="text" name="adresse" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ old('adresse', $viewData['fournisseur']->adresse) }}">
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Telephone</label>
-                <input type="text" name="tele" class="form-control" value="{{ old('tele', $viewData['fournisseur']->tele) }}">
-            </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Telephone</label>
+            <input type="text" name="tele" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ old('tele', $viewData['fournisseur']->tele) }}">
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" value="{{ old('email', $viewData['fournisseur']->email) }}">
-            </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ old('email', $viewData['fournisseur']->email) }}">
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea name="description" class="form-control" rows="3">{{ old('description', $viewData['fournisseur']->description) }}</textarea>
-            </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea name="description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" rows="3">{{ old('description', $viewData['fournisseur']->description) }}</textarea>
+        </div>
 
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ url('/admin/fournisseurs') }}" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+        <div class="flex items-center space-x-4">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
+            <a href="{{ url('/admin/fournisseurs') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</a>
+        </div>
+    </form>
 </div>
 @endsection

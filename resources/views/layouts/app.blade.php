@@ -3,66 +3,68 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-  <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>@yield('title', 'Online Store')</title>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
   <!-- header -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary py-4">
-    <div class="container">
-      <a class="navbar-brand" href="{{ route('home.index') }}">Online Store</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+  <nav class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a class="text-2xl font-bold" href="{{ route('home.index') }}">Online Store</a>
+      <button class="block lg:hidden text-white focus:outline-none" id="menu-toggle">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link active" href="{{ route('home.index') }}">Home</a>
-          <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
-          <a class="nav-link active" href="{{ route('cart.index') }}">Cart</a>
-          <a class="nav-link active" href="{{ route('home.about') }}">About</a>
-          <div class="vr bg-white mx-2 d-none d-lg-block"></div>
-          @guest
-          <a class="nav-link active" href="{{ route('login') }}">Login</a>
-          <a class="nav-link active" href="{{ route('register') }}">Register</a>
-          @else
-          <a class="nav-link active" href="{{ route('myaccount.orders') }}">My Orders</a>
-          <form id="logout" action="{{ route('logout') }}" method="POST">
-            <a role="button" class="nav-link active"
-               onclick="document.getElementById('logout').submit();">Logout</a>
-            @csrf
-          </form>
-          @endguest
-        </div>
+      <div class="hidden lg:flex space-x-4" id="menu">
+        <a class="hover:text-gray-400" href="{{ route('home.index') }}">Home</a>
+        <a class="hover:text-gray-400" href="{{ route('product.index') }}">Products</a>
+        <a class="hover:text-gray-400" href="{{ route('cart.index') }}">Cart</a>
+        <a class="hover:text-gray-400" href="{{ route('home.about') }}">About</a>
+        @guest
+        <a class="hover:text-gray-400" href="{{ route('login') }}">Login</a>
+        <a class="hover:text-gray-400" href="{{ route('register') }}">Register</a>
+        @else
+        <a class="hover:text-gray-400" href="{{ route('myaccount.orders') }}">My Orders</a>
+        <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
+          <a role="button" class="hover:text-gray-400 cursor-pointer"
+             onclick="document.getElementById('logout').submit();">Logout</a>
+          @csrf
+        </form>
+        @endguest
       </div>
     </div>
   </nav>
 
-  <header class="masthead bg-primary text-white text-center py-4">
-    <div class="container d-flex align-items-center flex-column">
-      <h2>@yield('subtitle', 'A Laravel Online Store')</h2>
+  <header class="text-gray-800 text-left py-8">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold">@yield('subtitle', 'A Laravel Online Store')</h2>
     </div>
   </header>
   <!-- header -->
 
-  <div class="container my-4">
+  <div class="container min-h-screen mx-auto my-8">
     @yield('content')
   </div>
 
   <!-- footer -->
-  <div class="copyright py-4 text-center text-white">
-    <div class="container">
+  <footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto text-center">
       <small>
-        Copyright - <a class="text-reset fw-bold text-decoration-none" target="_blank"
+        Copyright - <a class="text-blue-400 hover:underline" target="_blank"
           href="https://twitter.com/danielgarax">
           Daniel Correa
         </a> - <b>Paola Vallejo</b>
       </small>
     </div>
-  </div>
+  </footer>
   <!-- footer -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('hidden');
+    });
   </script>
 </body>
 </html>
