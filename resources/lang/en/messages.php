@@ -88,5 +88,26 @@ return [
     'description' => 'Description',
     'copyright' => 'Derechos de autor - ',
     'developer' => 'TeamTawainaDev',
-    
+   'online' => 'Online',
+    'discounted_products' => 'Discounted Products',
+    'category' => 'Category:',
+    'all_categories' => 'All Categories',
+    'thank_you_for_your_order' => 'Thank you for your order!',
+'your_order_is_being_processed' => 'Your order is being processed.',
+'your_order_number' => 'Your order number',
+'about_us' => 'About Us',
+'about_us_text' => 'We offer the best products at competitive prices. Shop with confidence with our 30-day money-back guarantee.',
+'quick_links' => 'Quick Links',
+
+'contact' => 'Contact',
+'customer_service' => 'Customer Service',
+'faq' => 'FAQ',
+'shipping_policy' => 'Shipping Policy',
+'returns_refunds' => 'Returns & Refunds',
+'privacy_policy' => 'Privacy Policy',
+
+
+
+
+
 ];

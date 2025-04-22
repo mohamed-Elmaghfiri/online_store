@@ -89,5 +89,22 @@ return [
 
         'copyright' => 'Droits d\'auteur -',
         'developer' => 'TeamTawainaDev',
-    
+     'online' => 'En ligne',
+    'discounted_products' => 'Produits en promotion',
+    'category' => 'Catégorie :',
+    'all_categories' => 'Toutes les catégories',
+    'thank_you_for_your_order' => 'Merci pour votre commande !',
+'your_order_is_being_processed' => 'Votre commande est en cours de traitement.',
+'your_order_number' => 'Numéro de votre commande',
+'about_us' => 'À propos de nous',
+'about_us_text' => 'Nous offrons les meilleurs produits à des prix compétitifs. Achetez en toute confiance avec notre garantie de remboursement de 30 jours.',
+'quick_links' => 'Liens rapides',
+
+'contact' => 'Contact',
+'customer_service' => 'Service client',
+'faq' => 'FAQ',
+'shipping_policy' => 'Politique d\'expédition',
+'returns_refunds' => 'Retours et remboursements',
+'privacy_policy' => 'Politique de confidentialité',
+
 ];

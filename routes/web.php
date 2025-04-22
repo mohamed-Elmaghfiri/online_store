@@ -38,7 +38,7 @@ Route::delete('/cart/delete', [CartController::class, 'delete'])->name("cart.del
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name("cart.add");
 
 Route::middleware('auth')->group(function () {
-    Route::post('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
+    // Route::post('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
 
     Route::get('/my-account/orders', [MyAccountController::class, 'orders'])->name("myaccount.orders");
    

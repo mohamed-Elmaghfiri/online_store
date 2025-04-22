@@ -4,6 +4,7 @@
 <div class="container mx-auto mt-8">
     <h2 class="text-2xl font-bold mb-6">{{ __('Orders List') }}</h2>
 
+    {{-- إذا لم يكن هناك أي طلبات --}}
     @if($orders->isEmpty())
         <div class="bg-blue-100 text-blue-700 p-4 rounded text-center">
             {{ __('There are no orders currently.') }}
@@ -17,12 +18,19 @@
             </div>
 
             <div class="p-4">
+              
                 <p><strong>{{ __('Status:') }}</strong> {{ $order->status }}</p>
                 <p><strong>{{ __('Payment Method:') }}</strong> {{ $order->payment_method }}</p>
-                <p><strong>{{ __('Total:') }}</strong> {{ number_format($order->total, 2) }} DH</p>
-                <p><strong>{{ __('Name:') }}</strong> {{ $order->name }}</p>
-                <p><strong>{{ __('Phone:') }}</strong> {{ $order->phone }}</p>
-                <p><strong>{{ __('Address:') }}</strong> {{ $order->address }}</p>
+                <p><strong>></p>
+                    <p><strong></p>
+                    <p><strong>{{ __('Total:') }}</strong> {{ number_format($order->total, 2) }} DH</p>
+
+                @if($order->payment_method === 'Cash on Delivery')
+                    <p><strong>{{ __('Name:') }}</strong> {{ $order->name }}</p>
+                    <p><strong>{{ __('Phone:') }}</strong> {{ $order->phone }}</p>
+                    <p><strong>{{ __('Address:') }}</strong> {{ $order->address }}</p>
+                @endif
+
                 <p><strong>{{ __('Created At:') }}</strong> {{ $order->created_at->format('Y-m-d H:i') }}</p>
 
                 <h5 class="text-lg font-bold mt-6">{{ __('Products:') }}</h5>

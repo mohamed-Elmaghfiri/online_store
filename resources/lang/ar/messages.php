@@ -88,5 +88,23 @@ return [
     'description' => 'الوصف',
     'copyright' => 'حقوق الطبع والنشر ',
     'developer' => 'TeamTawainaDev',
+ 'online' => 'عبر الإنترنت',
+    'discounted_products' => 'المنتجات المخفضة',
+    'category' => 'الفئة:',
+    'all_categories' => 'جميع الفئات',
+    'thank_you_for_your_order' => 'شكراً لطلبك!',
+'your_order_is_being_processed' => 'طلبك قيد المعالجة.',
+'your_order_number' => 'رقم الطلب',
+
+'about_us' => 'معلومات عنا',
+'about_us_text' => 'نقدم أفضل المنتجات بأسعار تنافسية. تسوق بثقة مع ضمان استرداد الأموال لمدة 30 يومًا.',
+'quick_links' => 'روابط سريعة',
+
+'contact' => 'اتصل بنا',
+'customer_service' => 'خدمة العملاء',
+'faq' => 'الأسئلة الشائعة',
+'shipping_policy' => 'سياسة الشحن',
+'returns_refunds' => 'الإرجاع والاسترداد',
+'privacy_policy' => 'سياسة الخصوصية',
 
 ];

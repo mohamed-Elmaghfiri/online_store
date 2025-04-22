@@ -5,24 +5,44 @@
 
 @section('content')
 <!-- Product Filter -->
-<div class="mb-6">
+<div class="mb-6 bg-primary-50 p-4 rounded-lg">
   <form method="GET" action="{{ route('product.index') }}" class="flex items-center space-x-4">
-    <label for="on_sale" class="text-lg font-semibold">{{ __('messages.filter_products') }}</label>
+    <!-- Sale Filter -->
+    <label for="on_sale" class="text-lg font-semibold text-primary-800">
+        {{ __('messages.filter_products') }}
+    </label>
     <select name="on_sale" onchange="this.form.submit()"
-      class="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500">
-      <option value="">{{ __('messages.all_products') }}</option>
-      <option value="1" {{ request('on_sale') == '1' ? 'selected' : '' }}>{{ __('messages.on_sale') }}</option>
+        class="px-4 py-2 rounded-md border border-primary-200 focus:ring-2 focus:ring-primary-500">
+        <option value="">{{ __('messages.all_products') }}</option>
+        <option value="1" {{ request('on_sale') == '1' ? 'selected' : '' }}>
+            {{ __('messages.discounted_products') }}
+        </option>
     </select>
-  </form>
+   
+    <!-- Category Filter -->
+    <label for="category_id" class="text-lg font-semibold text-primary-800">
+        {{ __('messages.category') }}
+    </label>
+    <select name="category_id" onchange="this.form.submit()"
+        class="px-4 py-2 rounded-md border border-primary-200 focus:ring-2 focus:ring-primary-500">
+        <option value="">{{ __('messages.all_categories') }}</option>
+        @foreach ($viewData['categories'] as $category)
+            <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+</form>
+
 </div>
 
 <!-- Product List -->
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
   @foreach ($viewData["products"] as $product)
-  <div class="bg-white rounded-lg shadow hover:shadow-lg transition duration-300 relative overflow-hidden">
+  <div class="bg-white rounded-lg shadow hover:shadow-md transition duration-300 relative overflow-hidden border border-primary-100">
 
     <!-- Product Image -->
-    <img src="{{ asset('/storage/' . $product->getImage()) }}" alt="{{ $product->getName() }}"
+    <img src="https://picsum.photos/500/300?random={{ $product->getId() }}" alt="{{ $product->getName() }}"
       class="w-full h-48 object-cover rounded-t-lg">
 
     <!-- Out of Stock Badge -->
@@ -33,8 +53,8 @@
 
     <!-- Product Details -->
     <div class="p-4 text-center">
-      <a href="{{ route('product.show', ['id'=> $product->getId()]) }}"
-        class="text-lg font-bold text-blue-700 hover:underline block">
+      <a href="{{ route('product.show', ['id'=> $product->getId()]) }} "
+        class="text-lg font-bold text-primary-700 hover:text-primary-600 transition-colors block">
         {{ $product->getName() }}
       </a>
 
@@ -43,7 +63,7 @@
         @if($product->isDiscountActive())
         <div class="flex justify-center items-center gap-2">
           <span class="line-through text-gray-400 text-sm">{{ $product->price }} DH</span>
-          <span class="text-red-600 font-bold text-lg">{{ $product->getFormattedDiscountedPrice() }} DH</span>
+          <span class="text-primary-700 font-bold text-lg">{{ $product->getFormattedDiscountedPrice() }} DH</span>
         </div>
         @else
         <span class="text-gray-800 font-semibold text-lg">{{ $product->price }} DH</span>

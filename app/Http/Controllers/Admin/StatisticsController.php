@@ -18,7 +18,6 @@ class StatisticsController extends Controller
         $startDate = $request->input('start_date', Carbon::today()->toDateString());
         $endDate = $request->input('end_date', Carbon::today()->toDateString());
 
-        // ------------------------------
         // 1. Chiffre d'affaires (Revenue)
         // ------------------------------
         $revenueToday = Order::whereDate('created_at', Carbon::today())->sum('total');
