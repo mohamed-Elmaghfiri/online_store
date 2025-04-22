@@ -1,73 +1,91 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
+
 @section('content')
-<div class="bg-white shadow rounded-lg p-6">
-  <!-- Create Category Section -->
-  <div class="mb-8">
-    <h2 class="text-xl font-bold mb-4">Create Category</h2>
+<!-- Create Category Section -->
+<div class="card shadow mb-4">
+  <div class="card-header d-flex align-items-center">
+    <i class="bi bi-plus-lg me-2"></i>
+    <h5 class="m-0 font-weight-bold">Create Category</h5>
+  </div>
+  <div class="card-body">
     @if($errors->any())
-    <ul class="bg-red-100 text-red-700 p-4 rounded mb-4">
-      @foreach($errors->all() as $error)
-      <li>- {{ $error }}</li>
-      @endforeach
-    </ul>
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.categorie.store') }}" class="space-y-4">
+    <form method="POST" action="{{ route('admin.categorie.store') }}">
       @csrf
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Name:</label>
-        <input name="name" value="{{ old('name') }}" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      <div class="mb-3">
+        <label class="form-label">Name:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-tag"></i></span>
+          <input name="name" value="{{ old('name') }}" type="text" class="form-control" placeholder="Category name">
+        </div>
       </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Description:</label>
-        <textarea name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('description') }}</textarea>
+      <div class="mb-3">
+        <label class="form-label">Description:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-text-paragraph"></i></span>
+          <textarea name="description" rows="3" class="form-control" placeholder="Category description">{{ old('description') }}</textarea>
+        </div>
       </div>
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-circle me-2"></i>Create Category
+      </button>
     </form>
   </div>
+</div>
 
-  <!-- Manage Categories Section -->
-  <div>
-    <h2 class="text-xl font-bold mb-4">Manage Categories</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-        <thead class="bg-gray-100">
+<!-- Manage Categories Section -->
+<div class="card shadow">
+  <div class="card-header d-flex align-items-center">
+    <i class="bi bi-list-ul me-2"></i>
+    <h5 class="m-0 font-weight-bold">Manage Categories</h5>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
           <tr>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Description</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Edit</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Delete</th>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th class="table-action">ACTIONS</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody>
           @foreach ($viewData["categories"] as $categorie)
           <tr>
-            <td class="px-4 py-2 text-sm text-gray-700">{{ $categorie["id"] }}</td>
-            <td class="px-4 py-2 text-sm text-gray-700">{{ $categorie["name"] }}</td>
-            <td class="px-4 py-2 text-sm text-gray-700">{{ $categorie["description"] }}</td>
-            <td class="px-4 py-2">
-              <a href="{{ route('admin.categorie.edit', ['id' => $categorie["id"]]) }}" class="text-blue-500 hover:underline">
-                <i class="bi-pencil"></i> Edit
-              </a>
-            </td>
-            <td class="px-4 py-2">
-              <form action="{{ route('admin.categorie.delete', $categorie["id"]) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-red-500 hover:underline">
-                  <i class="bi-trash"></i> Delete
-                </button>
-              </form>
+            <td>{{ $categorie["id"] }}</td>
+            <td><span class="fw-medium">{{ $categorie["name"] }}</span></td>
+            <td>{{ Str::limit($categorie['description'], 50) }}</td>
+            <td class="table-action">
+              <div class="btn-group" role="group">
+                <a href="{{ route('admin.categorie.edit', ['id' => $categorie["id"]]) }}" class="btn btn-sm btn-primary">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form action="{{ route('admin.categorie.delete', $categorie["id"]) }}" method="POST" class="d-inline">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?')">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
             </td>
           </tr>
           @endforeach
         </tbody>
       </table>
     </div>
-    <div class="mt-4">
-      {{ $viewData["categories"]->links('pagination::tailwind') }}
+    <div class="mt-4 d-flex justify-content-center">
+      {{ $viewData["categories"]->links('pagination::bootstrap-5') }}
     </div>
   </div>
 </div>

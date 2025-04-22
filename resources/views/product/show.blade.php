@@ -56,7 +56,7 @@
                  {{ $viewData["product"]->quantity_store == 0 ? 'disabled' : '' }}>
         </div>
         <button type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition disabled:opacity-50"
+                class="bg-primary-700 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition disabled:opacity-50"
                 {{ $viewData["product"]->quantity_store == 0 ? 'disabled' : '' }}>
           Add to Cart
         </button>

@@ -1,94 +1,133 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
 @section('content')
+<!-- Bootstrap CSS -->
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
 
 <!-- Create Fournisseur Section -->
-<div class="bg-white shadow rounded-lg p-6 mb-8">
-    <h3 class="text-xl font-bold mb-4">Create Fournisseur</h3>
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-header-icon icon-success">
+      <i class="bi bi-building-add"></i>
+    </div>
+    <h5 class="m-0 font-weight-bold">Create Fournisseur</h5>
+  </div>
+  <div class="card-body">
     @if($errors->any())
-    <ul class="bg-red-100 text-red-700 p-4 rounded mb-4">
+    <div class="alert alert-danger">
+      <ul class="mb-0">
         @foreach($errors->all() as $error)
-        <li>- {{ $error }}</li>
+        <li>{{ $error }}</li>
         @endforeach
-    </ul>
+      </ul>
+    </div>
     @endif
 
-    <form method="POST" action="{{ route('fournisseurs.store') }}" class="space-y-4">
-        @csrf
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Raison Social:</label>
-            <input name="raison_social" value="{{ old('raison_social') }}" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+    <form method="POST" action="{{ route('fournisseurs.store') }}">
+      @csrf
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Raison Social:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-building"></i></span>
+            <input name="raison_social" value="{{ old('raison_social') }}" type="text" class="form-control" placeholder="Company name">
+          </div>
         </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Adresse:</label>
-            <input name="adresse" value="{{ old('adresse') }}" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Adresse:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+            <input name="adresse" value="{{ old('adresse') }}" type="text" class="form-control" placeholder="Address">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Telephone:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+            <input name="tele" value="{{ old('tele') }}" type="text" class="form-control" placeholder="Phone number">
+          </div>
         </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Telephone:</label>
-            <input name="tele" value="{{ old('tele') }}" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Email:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+            <input name="email" value="{{ old('email') }}" type="email" class="form-control" placeholder="Email address">
+          </div>
         </div>
+      </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Email:</label>
-            <input name="email" value="{{ old('email') }}" type="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      <div class="mb-3">
+        <label class="form-label">Description:</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-text-paragraph"></i></span>
+          <textarea name="description" rows="3" class="form-control" placeholder="Supplier description">{{ old('description') }}</textarea>
         </div>
+      </div>
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700">Description:</label>
-            <textarea name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('description') }}</textarea>
-        </div>
-
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+      <button type="submit" class="btn btn-success">
+        <i class="bi bi-check-circle me-2"></i>Create Supplier
+      </button>
     </form>
+  </div>
 </div>
 
 <!-- Manage Fournisseurs Section -->
-<div class="bg-white shadow rounded-lg p-6">
-    <h3 class="text-xl font-bold mb-4">Manage Fournisseurs</h3>
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Raison Social</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Adresse</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Telephone</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Email</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Description</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Edit</th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Delete</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                @foreach ($viewData["fournisseurs"] as $fournisseur)
-                <tr>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $fournisseur->id }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $fournisseur->raison_social }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $fournisseur->adresse }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $fournisseur->tele }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $fournisseur->email }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-700">{{ $fournisseur->description }}</td>
-                    <td class="px-4 py-2">
-                        <a href="{{ route('fournisseurs.edit', $fournisseur->id) }}" class="text-blue-500 hover:underline">
-                            <i class="bi-pencil"></i> Edit
-                        </a>
-                    </td>
-                    <td class="px-4 py-2">
-                        <form action="{{ route('fournisseurs.destroy', $fournisseur->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:underline">
-                                <i class="bi-trash"></i> Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+<div class="card shadow">
+  <div class="card-header">
+    <div class="card-header-icon icon-primary">
+      <i class="bi bi-buildings"></i>
     </div>
+    <h5 class="m-0 font-weight-bold">Manage Suppliers</h5>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>COMPANY</th>
+            <th>CONTACT</th>
+            <th>ADDRESS</th>
+            <th>DESCRIPTION</th>
+            <th class="table-action">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($viewData["fournisseurs"] as $fournisseur)
+          <tr>
+            <td>{{ $fournisseur->id }}</td>
+            <td><span class="fw-medium">{{ $fournisseur->raison_social }}</span></td>
+            <td>
+              <div><i class="bi bi-telephone-fill text-primary me-1"></i> {{ $fournisseur->tele }}</div>
+              <div><i class="bi bi-envelope-fill text-primary me-1"></i> {{ $fournisseur->email }}</div>
+            </td>
+            <td>{{ $fournisseur->adresse }}</td>
+            <td>{{ $fournisseur->description }}</td>
+            <td class="table-action">
+              <div class="btn-group" role="group">
+                <a href="{{ route('fournisseurs.edit', $fournisseur->id) }}" class="btn btn-sm btn-primary">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form action="{{ route('fournisseurs.destroy', $fournisseur->id) }}" method="POST" class="d-inline">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this supplier?')">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 @endsection

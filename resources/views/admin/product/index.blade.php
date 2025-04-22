@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
 
+
 @section('content')
 <div class="card mb-4">
   <div class="card-header">Create Products</div>
@@ -70,8 +71,9 @@
 <div class="card">
   <div class="card-header">Manage Products</div>
   <div class="card-body">
-          <label for="file" class="form-label fw-bold">Filter By:</label>
+    <label for="file" class="form-label fw-bold">Filter By:</label>
     <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+
       <!-- Category Filter -->
       <form method="GET" action="{{ route('admin.product.index') }}" class="d-flex align-items-center">
         <label for="categorie_id" class="me-2 fw-bold">Category:</label>
@@ -101,20 +103,18 @@
 
     <!-- Import Form -->
     <div class="card p-3">
-    <form action="{{ route('admin.product.import') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-wrap gap-3 align-items-center ">
+      <form action="{{ route('admin.product.import') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-wrap gap-3 align-items-center ">
         @csrf
         <div class="d-flex flex-column">
-            <label for="file" class="form-label fw-bold">Choose Excel File:</label>
-            <input type="file" name="file" class="form-control" required>
+          <label for="file" class="form-label fw-bold">Choose Excel File:</label>
+          <input type="file" name="file" class="form-control" required>
         </div>
         <div class="d-flex gap-2 pt-4">
-            <button type="submit" class="btn btn-primary">Import</button>
-            <a href="{{ route('admin.product.export') }}" class="btn btn-success">Export</a>
+          <button type="submit" class="btn btn-primary">Import</button>
+          <a href="{{ route('admin.product.export') }}" class="btn btn-success">Export</a>
         </div>
-    </form>
-</div>
-
-    
+      </form>
+    </div>
 
     <!-- Product Table -->
     <table class="table table-bordered table-striped mt-3">
@@ -133,12 +133,13 @@
         @foreach ($viewData["products"] as $product)
           <tr class="
             @if($product->quantity_store == 0)
-              bg-danger
+              table-danger text-white
             @elseif($product->quantity_store < 10)
-              bg-warning  
+              table-warning text-dark
             @else
-              bg-success  
-            @endif">
+              table-success text-white
+            @endif
+          ">
             <td>{{ $product->getId() }}</td>
             <td>{{ $product->getName() }}</td>
             <td>{{ $product->category->name }}</td>

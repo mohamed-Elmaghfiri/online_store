@@ -15,21 +15,25 @@ class CartController extends Controller
         $total = 0;
         $productsInCart = [];
 
-        // $productsInSession = $request->session()->get("products");
+        // Retrieve products stored in the cookie
         $productsInCookie = json_decode($request->cookie("products"), true) ?? [];
 
-  
-
+        // Fetch the products based on the IDs in the cookie
         if ($productsInCookie) {
             $productsInCart = Product::findMany(array_keys($productsInCookie));
+
+            // Calculate total price based on quantities in the cookie
             $total = Product::sumPricesByQuantities($productsInCart, $productsInCookie);
         }
 
+        // Pass data to the view
         $viewData = [];
         $viewData["title"] = "Cart - Online Store";
-        $viewData["subtitle"] =  "Shopping Cart";
+        $viewData["subtitle"] = "Shopping Cart";
         $viewData["total"] = $total;
         $viewData["products"] = $productsInCart;
+        $viewData["productsInCookie"] = $productsInCookie;  // Pass the cookie data to the view
+
         return view('cart.index')->with("viewData", $viewData);
     }
 
@@ -60,6 +64,9 @@ class CartController extends Controller
             $userId = Auth::user()->getId();
             $order = new Order();
             $order->setUserId($userId);
+            $order->name = $request->name;
+            $order->phone = $request->phone;
+            $order->address = $request->address;
             $order->setTotal(0);
             $order->save();
 

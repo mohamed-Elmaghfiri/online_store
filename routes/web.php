@@ -37,12 +37,12 @@ Route::delete('/cart/delete', [CartController::class, 'delete'])->name("cart.del
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name("cart.add");
 
 Route::middleware('auth')->group(function () {
-    Route::get('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
+    // Route::post('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
 
     Route::get('/my-account/orders', [MyAccountController::class, 'orders'])->name("myaccount.orders");
    
     Route::post('/payment', [paymentController::class, 'processPaymentMethod'])->name("payment.add");
-    Route::post('/payment/online/process', [PaymentController::class, 'saveCashPayment'])->name('payments.processOnline');
+
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
