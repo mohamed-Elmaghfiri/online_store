@@ -30,25 +30,33 @@
         @endforeach
       </tbody>
     </table>
-  </div>
 
-  <div class="mt-6 flex flex-col sm:flex-row sm:justify-between items-center">
-    <div class="mb-4 sm:mb-0">
-      <span class="text-lg font-semibold">💰 Total:</span>
-      <span class="text-xl font-bold text-blue-600">{{ number_format($viewData["total"], 2) }} DH</span>
-    </div>
+    <div class="row">
 
-    <div class="flex gap-3">
-      <a href="{{ route('cart.purchase') }}"
-         class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition">
-        ✔️ Checkout
-      </a>
+        <div class="text-end">
+        <form action="{{ route('payment.add') }}" method="POST">
+        @csrf
+          <a class="btn btn-outline-secondary mb-2">
+            <b>Total to pay:</b> ${{ $viewData["total"] }}
+          </a>
 
-      <a href="{{ route('cart.delete') }}"
-         onclick="return confirm('Are you sure you want to remove all products from the cart?')"
-         class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition">
-        🗑️ Clear Cart
-      </a>
+          @if (count($viewData["products"]) > 0)
+          <div class="mb-3">
+            <label for="payment_method" class="form-label">Choose Payment Method:</label>
+            <select name="payment_method" id="payment_method" class="form-control" required>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+              
+            </select>
+          </div> <button type="submit" class="btn btn-success mb-2">Confirm Order</button>
+          </form>
+         
+         <!-- <a href="{{ route('cart.purchase') }}" class="btn bg-primary text-white mb-2">Purchase</a> -->
+          <a href="{{ route('cart.delete') }}" class="btn btn-danger mb-2">
+            Remove all products from Cart
+          </a>
+          @endif
+        </div>
+
     </div>
   </div>
   @else

@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7xj1z5l5c5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous" />
   <title>@yield('title', 'Online Store')</title>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -16,22 +17,26 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
       </button>
-      <div class="hidden lg:flex space-x-4" id="menu">
-        <a class="hover:text-gray-400" href="{{ route('home.index') }}">Home</a>
-        <a class="hover:text-gray-400" href="{{ route('product.index') }}">Products</a>
-        <a class="hover:text-gray-400" href="{{ route('cart.index') }}">Cart</a>
-        <a class="hover:text-gray-400" href="{{ route('home.about') }}">About</a>
-        @guest
-        <a class="hover:text-gray-400" href="{{ route('login') }}">Login</a>
-        <a class="hover:text-gray-400" href="{{ route('register') }}">Register</a>
-        @else
-        <a class="hover:text-gray-400" href="{{ route('myaccount.orders') }}">My Orders</a>
-        <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
-          <a role="button" class="hover:text-gray-400 cursor-pointer"
-             onclick="document.getElementById('logout').submit();">Logout</a>
-          @csrf
-        </form>
-        @endguest
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link active" href="{{ route('home.index') }}">Home</a>
+          <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
+          <a class="nav-link active" href="{{ route('cart.index') }}">Cart</a>
+          <a class="nav-link active" href="{{ route('orders.index') }}">Orders</a>
+          <a class="nav-link active" href="{{ route('home.about') }}">About</a>
+          <div class="vr bg-white mx-2 d-none d-lg-block"></div>
+          @guest
+          <a class="nav-link active" href="{{ route('login') }}">Login</a>
+          <a class="nav-link active" href="{{ route('register') }}">Register</a>
+          @else
+          <a class="nav-link active" href="{{ route('myaccount.orders') }}">My Orders</a>
+          <form id="logout" action="{{ route('logout') }}" method="POST">
+            <a role="button" class="nav-link active"
+               onclick="document.getElementById('logout').submit();">Logout</a>
+            @csrf
+          </form>
+          @endguest
+        </div>
       </div>
     </div>
   </nav>
