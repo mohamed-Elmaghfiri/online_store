@@ -1,34 +1,28 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
 @section('content')
-<div class="card mb-4">
-  <div class="card-header">
-    Edit Category
-  </div>
-  <div class="card-body">
-    @if($errors->any())
-    <ul class="alert alert-danger list-unstyled">
-      @foreach($errors->all() as $error)
-      <li>- {{ $error }}</li>
-      @endforeach
-    </ul>
-    @endif
+<div class="bg-white shadow rounded-lg p-6">
+  <h2 class="text-xl font-bold mb-4">Edit Category</h2>
+  @if($errors->any())
+  <ul class="bg-red-100 text-red-700 p-4 rounded mb-4">
+    @foreach($errors->all() as $error)
+    <li>- {{ $error }}</li>
+    @endforeach
+  </ul>
+  @endif
 
-    <form method="POST" action="{{ route('admin.categorie.update', ['id' => $viewData['categorie']->id]) }}">
-      @csrf
-      @method('PUT')
-      <div class="mb-3 row">
-        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Name:</label>
-        <div class="col-lg-10 col-md-6 col-sm-12">
-          <input name="name" value="{{ $viewData['categorie']->name }}" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <textarea class="form-control" name="description" rows="3">{{ $viewData['categorie']->description }}</textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Edit</button>
-    </form>
-  </div>
+  <form method="POST" action="{{ route('admin.categorie.update', ['id' => $viewData['categorie']->id]) }}" class="space-y-4">
+    @csrf
+    @method('PUT')
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Name:</label>
+      <input name="name" value="{{ $viewData['categorie']->name }}" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Description:</label>
+      <textarea name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ $viewData['categorie']->description }}</textarea>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit</button>
+  </form>
 </div>
 @endsection

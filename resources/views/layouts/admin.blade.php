@@ -4,58 +4,87 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <link href="{{ asset('/css/admin.css') }}" rel="stylesheet" />
+  
+  <!-- رابط ملف CSS الخاص بك إن وجد -->
+  <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
+
+  <!-- رابط Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
   <title>@yield('title', 'Admin - Online Store')</title>
 </head>
 
-<body>
-  <div class="row g-0">
-    <!-- sidebar -->
-    <div class="p-3 col fixed text-white bg-dark">
-      <a href="{{ route('admin.home.index') }}" class="text-white text-decoration-none">
-        <span class="fs-4">Admin Panel</span>
+<body class="bg-light">
+
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="bg-dark text-white p-3" style="width: 250px; min-height: 100vh;">
+      <a href="{{ route('admin.home.index') }}" class="text-white fs-4 fw-bold d-block mb-3 text-decoration-none">
+        Admin Panel
       </a>
-      <hr />
+      <hr class="border-secondary" />
       <ul class="nav flex-column">
-        <li><a href="{{ route('admin.home.index') }}" class="nav-link text-white">- Admin - Home</a></li>
-        <li><a href="{{ route('admin.product.index') }}" class="nav-link text-white">- Admin - Products</a></li>
-        <li><a href="{{ route('admin.categorie.index') }}" class="nav-link text-white">- Admin - Categories</a></li>
-        <li>
-          <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home page</a>
+        <li class="nav-item">
+          <a href="{{ route('admin.home.index') }}" class="nav-link text-white-50 hover-white">- Admin - Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('admin.product.index') }}" class="nav-link text-white-50 hover-white">- Admin - Products</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('admin.categorie.index') }}" class="nav-link text-white-50 hover-white">- Admin - Categories</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/fournisseurs') }}" class="nav-link text-white-50 hover-white">- Admin - Fournisseurs</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/statistics') }}" class="nav-link text-white-50 hover-white">- Admin - Statistics</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/orders') }}" class="nav-link text-white-50 hover-white">- Admin - Orders</a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ url('admin/discounts/create') }}" class="nav-link text-white-50 hover-white">- Admin - Discounts</a>
+        </li>
+        <li class="nav-item mt-4">
+          <a href="{{ route('home.index') }}" class="btn btn-primary w-100">
+            Go back to the home page
+          </a>
         </li>
       </ul>
-    </div>
-    <!-- sidebar -->
-    <div class="col content-grey">
-      <nav class="p-3 shadow text-end">
-        <span class="profile-font">Admin</span>
-        <img class="img-profile rounded-circle" src="{{ asset('/img/undraw_profile.svg') }}">
+    </nav>
+    <!-- End Sidebar -->
+
+    <!-- Main Content -->
+    <div class="flex-fill">
+      <!-- Navbar -->
+      <nav class="navbar navbar-light bg-white shadow-sm px-4 d-flex justify-content-end align-items-center">
+        <span class="text-muted me-3">Admin</span>
+        <img src="{{ asset('/img/undraw_profile.svg') }}" alt="Profile" class="rounded-circle" width="40" height="40">
       </nav>
 
-      <div class="g-0 m-5">
+      <!-- Content Area -->
+      <main class="p-4">
         @yield('content')
-      </div>
+      </main>
     </div>
+    <!-- End Main Content -->
   </div>
 
-  <!-- footer -->
-  <div class="copyright py-4 text-center text-white">
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-3 text-center mt-auto">
     <div class="container">
       <small>
-        Copyright - <a class="text-reset fw-bold text-decoration-none" target="_blank"
-          href="https://twitter.com/danielgarax">
+        &copy; <a class="text-info text-decoration-none" target="_blank" href="https://twitter.com/danielgarax">
           Daniel Correa
-        </a> - <b>Paola Vallejo</b>
+        </a> - <strong>Paola Vallejo</strong>
       </small>
     </div>
-  </div>
-  <!-- footer -->
+  </footer>
+  <!-- End Footer -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-  </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

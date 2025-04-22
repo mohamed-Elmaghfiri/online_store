@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductExport;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use App\Models\Categorie;
+use App\Models\fournisseur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminProductController extends Controller
 {
@@ -15,14 +19,18 @@ class AdminProductController extends Controller
         $viewData = [];
         $viewData["title"] = "Admin Page - Products - Online Store";
         $viewData["categories"] = Categorie::all();
-
+        $viewData["fournisseurs"] = fournisseur::all();
+        
         $categoryId = $request->query('categorie_id');
-        if ($categoryId) {
+        $fournisseurId = $request->query('fournisseur_id');
+        if ($categoryId) { 
             $viewData["products"] = Product::where('categorie_id', $categoryId)->get();
-        } else {
+        }else if ($fournisseurId) { 
+            $viewData["products"] = Product::where('fournisseur_id', $fournisseurId)->get();
+        }
+         else {
             $viewData["products"] = Product::all();
         }
-
         return view('admin.product.index')->with("viewData", $viewData);
     }
 
@@ -94,5 +102,13 @@ class AdminProductController extends Controller
 
         $product->save();
         return redirect()->route('admin.product.index');
+    }
+    public function export()  {
+        return Excel::download(new ProductExport, 'product.xlsx');
+    }
+    public function import(Request $request){
+        Excel::import(new ProductImport,  $request->file('file'));
+        return redirect()->route('admin.product.index');
+    
     }
 }

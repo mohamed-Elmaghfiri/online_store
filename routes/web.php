@@ -1,14 +1,21 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCategorieController;
+use App\Http\Controllers\Admin\AdminFournisseurController as AdminAdminFournisseurController;
 use App\Http\Controllers\Admin\AdminHomeController;
+use App\Http\Controllers\Admin\AdminOrderContrller;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyAccountController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SuperAdminUserController\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController as paymentController;
+use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +38,13 @@ Route::delete('/cart/delete', [CartController::class, 'delete'])->name("cart.del
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name("cart.add");
 
 Route::middleware('auth')->group(function () {
-    Route::get('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
+    Route::post('/cart/purchase', [CartController::class, 'purchase'])->name("cart.purchase");
+
     Route::get('/my-account/orders', [MyAccountController::class, 'orders'])->name("myaccount.orders");
+   
+    Route::post('/payment', [paymentController::class, 'processPaymentMethod'])->name("payment.add");
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
 Route::middleware('admin')->group(function () {
@@ -43,6 +55,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/products/{id}/edit', [AdminProductController::class, 'edit'])->name("admin.product.edit");
     Route::put('/admin/products/{id}/update', [AdminProductController::class, 'update'])->name("admin.product.update");
     Route::get('/admin/products/filter', [AdminProductController::class, 'filter'])->name('admin.product.filter');
+    Route::get('/admin/products/export', [AdminProductController::class, 'export'])->name('admin.product.export');
+    Route::POST('/admin/products/import/', [AdminProductController::class, 'import'])->name('admin.product.import');
 
     // Category Routes
     Route::get('admin/categories', [AdminCategorieController::class, "index"])->name("admin.categorie.index");
@@ -50,7 +64,28 @@ Route::middleware('admin')->group(function () {
     Route::delete('admin/categories/{id}', [AdminCategorieController::class, 'delete'])->name("admin.categorie.delete");
     Route::get('admin/categories/{id}/edit', [AdminCategorieController::class, 'edit'])->name("admin.categorie.edit");
     Route::put('admin/categories/{id}/update', [AdminCategorieController::class, 'update'])->name("admin.categorie.update");
+
+    Route::resource("admin/fournisseurs", AdminAdminFournisseurController::class);
+
+    Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
+    Route::get("/admin/statistics/download", [StatisticsController::class, 'exportPdf'])->name('statistics.exportPdf');
+
+    Route::get('/admin/orders', [AdminOrderContrller::class, 'index'])->name('admin.order.index');
+    Route::put('/orders/{order}/status', [AdminOrderContrller::class, 'updateStatus'])->name('orders.updateStatus');
+
+    Route::resource('/admin/discounts', \App\Http\Controllers\Admin\DiscountController::class);
 });
 
+Route::middleware(['auth', 'super_admin'])->group(function () {
+    Route::get('/superAdmin/create', [UserController::class, 'showCreateAdminForm']);
+    Route::post('/superAdmin/create', [UserController::class, 'createAdmin'])->name("superAdmin.createAdmin");
+    Route::get('/superAdmin', [UserController::class, 'index'])->name("superAdmin.index");
+});
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'fr', 'ar'])) {
+        Session::put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
 
 Auth::routes();

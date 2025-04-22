@@ -1,70 +1,63 @@
 @extends('layouts.admin')
 @section('title', $viewData["title"])
 @section('content')
-<div class="card">
-    <div class="card-header">
-      <div class="card mb-4">
-        <div class="card-header">
-          Create Category
-        </div>
-        <div class="card-body">
-          @if($errors->any())
-          <ul class="alert alert-danger list-unstyled">
-            @foreach($errors->all() as $error)
-            <li>- {{ $error }}</li>
-            @endforeach
-          </ul>
-          @endif
-      
-          <form method="POST" action="{{ route('admin.categorie.store') }}">
-            @csrf
-            <div class="mb-3 row">
-              <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Name:</label>
-              <div class="col-lg-10 col-md-6 col-sm-12">
-                <input name="name" value="{{ old('name') }}" type="text" class="form-control">
-              </div>
-            </div>
-      
-            <div class="mb-3">
-              <label class="form-label">Description</label>
-              <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
-            </div>
-      
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
+<div class="bg-white shadow rounded-lg p-6">
+  <!-- Create Category Section -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold mb-4">Create Category</h2>
+    @if($errors->any())
+    <ul class="bg-red-100 text-red-700 p-4 rounded mb-4">
+      @foreach($errors->all() as $error)
+      <li>- {{ $error }}</li>
+      @endforeach
+    </ul>
+    @endif
+
+    <form method="POST" action="{{ route('admin.categorie.store') }}" class="space-y-4">
+      @csrf
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Name:</label>
+        <input name="name" value="{{ old('name') }}" type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
       </div>
-      
-      Manage Categories
-    </div>
-    <div class="card-body">
-      <table class="table table-bordered table-striped">
-        <thead>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Description:</label>
+        <textarea name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ old('description') }}</textarea>
+      </div>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
+    </form>
+  </div>
+
+  <!-- Manage Categories Section -->
+  <div>
+    <h2 class="text-xl font-bold mb-4">Manage Categories</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+        <thead class="bg-gray-100">
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Name</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Description</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Edit</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Delete</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="divide-y divide-gray-200">
           @foreach ($viewData["categories"] as $categorie)
           <tr>
-            <td>{{ $categorie["id"]}}</td>
-            <td>{{ $categorie["name"]}}</td>
-            <td>{{ $categorie["description"]}}</td>
-            <td>
-              <a class="btn btn-primary" href="{{route('admin.categorie.edit', ['id'=> $categorie["id"]])}}">
-                <i class="bi-pencil"></i>
+            <td class="px-4 py-2 text-sm text-gray-700">{{ $categorie["id"] }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700">{{ $categorie["name"] }}</td>
+            <td class="px-4 py-2 text-sm text-gray-700">{{ $categorie["description"] }}</td>
+            <td class="px-4 py-2">
+              <a href="{{ route('admin.categorie.edit', ['id' => $categorie["id"]]) }}" class="text-blue-500 hover:underline">
+                <i class="bi-pencil"></i> Edit
               </a>
             </td>
-            <td>
-              <form action="{{ route('admin.categorie.delete', $categorie["id"])}}" method="POST">
+            <td class="px-4 py-2">
+              <form action="{{ route('admin.categorie.delete', $categorie["id"]) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-danger">
-                  <i class="bi-trash"></i>
+                <button type="submit" class="text-red-500 hover:underline">
+                  <i class="bi-trash"></i> Delete
                 </button>
               </form>
             </td>
@@ -72,8 +65,10 @@
           @endforeach
         </tbody>
       </table>
-      <div class="d-flex justify-content-center">
-        {{ $viewData["categories"]->links() }}
     </div>
+    <div class="mt-4">
+      {{ $viewData["categories"]->links('pagination::tailwind') }}
     </div>
+  </div>
+</div>
 @endsection
